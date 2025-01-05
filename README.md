@@ -1,6 +1,6 @@
 # Dotfiles Repository
 
-This repository contains my personal configuration files for various tools and applications. The dotfiles are organized for easy management using [GNU Stow](https://www.gnu.org/software/stow/), a symlink farm manager, to simplify symlink creation and maintenance.
+This repository contains configuration files for various tools and applications. The dotfiles are organized for easy management using [GNU Stow](https://www.gnu.org/software/stow/), a symlink farm manager, to simplify symlink creation and maintenance.
 
 ## 📁 File Structure
 
@@ -47,4 +47,3 @@ stow .
 ## 💡 Contributing
 
 Feel free to open issues or submit pull requests for improvements or fixes!
-
