@@ -9,6 +9,7 @@ $nodejs\
 $golang\
 $haskell\
 $rust\
+$java\
 $ruby\
 $package\
 $aws\
@@ -39,6 +40,10 @@ truncate_to_repo = false
 style = 'fg:green'
 symbol = ' '
 format = '[on](white) [$symbol$branch ]($style)'
+
+[java]
+style = 'red'
+symbol = ' '
 
 [git_status]
 style = 'fg:green'
