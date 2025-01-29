@@ -112,9 +112,9 @@ return {
 								shadow = true,
 							},
 							hints = {
-								-- assignVariableTypes = true, -- Show variable types when assigning
+								assignVariableTypes = true, -- Show variable types when assigning
 								compositeLiteralFields = true, -- Show field names in composite literals
-								-- compositeLiteralTypes = true, -- Show types in composite literals
+								compositeLiteralTypes = true, -- Show types in composite literals
 								constantValues = true, -- Show constant values
 								functionTypeParameters = true, -- Show function type parameters
 								parameterNames = true, -- Show parameter names
