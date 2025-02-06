@@ -3,17 +3,7 @@ $directory\
 $git_branch\
 $git_status\
 $fill\
-$python\
-$lua\
-$nodejs\
-$golang\
-$haskell\
-$rust\
-$java\
-$ruby\
-$package\
 $aws\
-$docker_context\
 $jobs\
 $cmd_duration\
 $line_break\
@@ -89,13 +79,6 @@ symbol = '󰏗 '
 symbol = ' '
 style = 'yellow'
 format = '[$symbol($profile )(\[$duration\] )]($style)'
-
-[docker_context]
-symbol = ' '
-style = 'fg:#06969A'
-format = '[$symbol]($style) $path'
-detect_files = ['docker-compose.yml', 'docker-compose.yaml', 'Dockerfile']
-detect_extensions = ['Dockerfile']
 
 [jobs]
 symbol = ' '
