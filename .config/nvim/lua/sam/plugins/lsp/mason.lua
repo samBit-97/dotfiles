@@ -51,6 +51,7 @@ return {
 				"goimports",
 				"gofumpt",
 				"golangci-lint",
+				"delve",
 				"xmlformatter",
 			},
 		})

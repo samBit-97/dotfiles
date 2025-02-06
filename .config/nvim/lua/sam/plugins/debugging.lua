@@ -9,7 +9,7 @@ return {
 	config = function()
 		local dap = require("dap")
 		local dapui = require("dapui")
-		local dap_virtual_text = require("nvim-dap-virtual-text")
+		-- local dap_virtual_text = require("nvim-dap-virtual-text")
 
 		-- Setup DAP-UI
 		dapui.setup()
@@ -17,17 +17,17 @@ return {
 		-- Setup dap-go
 		require("dap-go").setup()
 
-		-- Setup dap-virtual-text
-		dap_virtual_text.setup({
-			enabled = true, -- Enable by default
-			enabled_commands = true, -- Create commands for enabling/disabling virtual text
-			highlight_changed_variables = true, -- Highlight variables that change during execution
-			highlight_new_as_changed = true, -- Highlight newly created variables
-			show_stop_reason = true, -- Show stop reason in virtual text
-			commented = false, -- Do not prefix virtual text with comment symbol
-			virt_text_pos = "eol", -- Position: 'eol', 'overlay', or 'inline'
-			all_frames = true, -- Show virtual text for all stack frames
-		})
+		-- -- Setup dap-virtual-text
+		-- dap_virtual_text.setup({
+		-- 	enabled = true, -- Enable by default
+		-- 	enabled_commands = true, -- Create commands for enabling/disabling virtual text
+		-- 	highlight_changed_variables = true, -- Highlight variables that change during execution
+		-- 	highlight_new_as_changed = true, -- Highlight newly created variables
+		-- 	show_stop_reason = true, -- Show stop reason in virtual text
+		-- 	commented = false, -- Do not prefix virtual text with comment symbol
+		-- 	virt_text_pos = "eol", -- Position: 'eol', 'overlay', or 'inline'
+		-- 	all_frames = true, -- Show virtual text for all stack frames
+		-- })
 
 		-- Define Delve Adapter
 		dap.adapters.dlv = {
@@ -73,15 +73,18 @@ return {
 			dapui.close()
 		end
 
-		-- Key mappings for debugging
-		vim.keymap.set("n", "<Leader>?", function()
-			require("dapui").eval(nil, { enter = true })
-		end, { desc = "Evaluate Expression" })
+		-- Keymaps for Debugging
 		vim.keymap.set("n", "<Leader>dt", dap.toggle_breakpoint, { desc = "Toggle Breakpoint" })
-		vim.keymap.set("n", "<Leader>dc", dap.continue, { desc = "Continue Debugging" })
+		vim.keymap.set("n", "<Leader>dc", dap.continue, { desc = "Start/Continue Debugging" })
+		vim.keymap.set("n", "<Leader>dx", dap.terminate, { desc = "Stop Debugging" })
 		vim.keymap.set("n", "<F1>", dap.step_over, { desc = "Step Over" })
 		vim.keymap.set("n", "<F2>", dap.step_into, { desc = "Step Into" })
 		vim.keymap.set("n", "<F3>", dap.step_out, { desc = "Step Out" })
 		vim.keymap.set("n", "<F4>", dap.terminate, { desc = "Stop Debugging" })
+
+		-- Debug Go tests easily
+		vim.keymap.set("n", "<Leader>dgt", function()
+			require("dap-go").debug_test()
+		end, { desc = "Debug Go Test" })
 	end,
 }

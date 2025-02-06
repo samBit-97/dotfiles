@@ -56,5 +56,6 @@ return {
 		vim.o.laststatus = 3
 		vim.api.nvim_set_hl(0, "WinSeparator", { bg = "NONE" })
 		vim.o.winbar = "%=%{%v:lua.require('custom-winbar').get_winbar()%}%="
+		vim.o.tabline = "%!v:lua.require('custom-tabline').generateTabline()"
 	end,
 }

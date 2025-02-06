@@ -66,3 +66,33 @@ vim.keymap.set("n", "<leader>ih", function()
 	-- Print a message for user feedback
 	print(is_enabled and "Inlay hints disabled" or "Inlay hints enabled")
 end, { desc = "Toggle Inlay Hints" })
+
+-- Run the nearest test (Go or Java)
+vim.keymap.set("n", "<leader>tm", function()
+	require("neotest").run.run()
+end, { desc = "Run nearest test (Java/Go)" })
+
+-- Run all tests in the current file (Java/Go)
+vim.keymap.set("n", "<leader>tf", function()
+	require("neotest").run.run(vim.fn.expand("%"))
+end, { desc = "Run all tests in file (Java/Go)" })
+
+-- Run the entire test suite (Java/Go)
+vim.keymap.set("n", "<leader>ta", function()
+	require("neotest").run.run(vim.fn.getcwd())
+end, { desc = "Run entire test suite (Java/Go)" })
+
+-- Show the test summary panel
+vim.keymap.set("n", "<leader>tsum", function()
+	require("neotest").summary.toggle()
+end, { desc = "Toggle test summary" })
+
+-- -- Show test output in a floating window
+-- vim.keymap.set("n", "<leader>to", function()
+-- 	require("neotest").output.open({ enter = true })
+-- end, { desc = "Show test output" })
+
+-- Watch file and rerun tests on save
+vim.keymap.set("n", "<leader>tw", function()
+	require("neotest").watch.watch()
+end, { desc = "Watch test file for changes" })

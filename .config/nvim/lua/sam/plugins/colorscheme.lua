@@ -7,6 +7,7 @@ return {
 		config = function()
 			require("catppuccin").setup({
 				flavour = "mocha", -- latte, frappe, macchiato, mocha
+				transparent_background = true,
 				term_colors = true, -- Set terminal colors
 				styles = {
 					comments = { "italic" }, -- Style for comments
@@ -23,6 +24,7 @@ return {
 					lsp_trouble = true, -- LSP Trouble integration
 					lsp_saga = false, -- LSP Saga integration
 					nvimtree = true, -- NvimTree integration
+					neotree = true, -- NeoTree integration
 					telescope = true, -- Telescope integration
 					treesitter = true, -- Treesitter integration
 					which_key = true, -- WhichKey integration
