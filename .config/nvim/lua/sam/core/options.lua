@@ -19,7 +19,7 @@ opt.ignorecase = true -- ignore case when searching
 opt.smartcase = true -- if you include mixed case in your search, assumes you want case-sensitive
 
 -- cursor line
--- opt.cursorline = true -- highlight the current cursor line
+opt.cursorline = true -- highlight the current cursor line
 
 -- appearance
 
@@ -42,3 +42,7 @@ opt.splitbelow = true -- split horizontal window to the bottom
 
 -- turn off swapfile
 opt.swapfile = false
+
+-- Conceal for prettier markdown
+vim.opt.conceallevel = 2
+vim.opt.concealcursor = "nc"

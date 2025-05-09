@@ -22,7 +22,7 @@ return {
 			group = vim.api.nvim_create_augroup("UserLspConfig", {}),
 			callback = function(ev)
 				-- Buffer local mappings.
-				-- See `:help vim.lsp.*` for documentation on any of the below functions
+				-- See :help vim.lsp.* for documentation on any of the below functions
 				local opts = { buffer = ev.buf, silent = true }
 
 				-- set keybinds
@@ -140,6 +140,25 @@ return {
 							},
 						},
 					},
+				})
+			end,
+			["pyright"] = function()
+				lspconfig["pyright"].setup({
+					capabilities = capabilities,
+					settings = {
+						python = {
+							analysis = {
+								typeCheckingMode = "basic",
+								autoSearchPaths = true,
+								useLibraryCodeForTypes = true,
+							},
+						},
+					},
+				})
+			end,
+			["terraformls"] = function()
+				lspconfig["terraformls"].setup({
+					capabilities = capabilities,
 				})
 			end,
 		})

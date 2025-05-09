@@ -4,26 +4,42 @@ return {
 	config = function()
 		require("lualine").setup({
 			options = {
-				icons_enabled = true, -- Enable icons
-				theme = "onedark", -- Use your colorscheme's auto colors
-				component_separators = { left = "", right = "" }, -- Separators between components
-				section_separators = { left = "", right = "" }, -- Separators between sections
-				globalstatus = false, -- Global status line across all splits
+				icons_enabled = true,
+				theme = "onedark",
+				component_separators = { left = "", right = "" },
+				section_separators = { left = "", right = "" },
+				globalstatus = false,
 			},
 			sections = {
-				-- Left section: Mode and Git branch
 				lualine_a = {
 					{
 						"mode",
 						fmt = function(mode)
 							return string.upper(mode)
 						end,
-					}, -- Mode in uppercase
+					},
 				},
-				-- Center section: File name
 				lualine_b = {
-					{ "branch", icon = "" }, -- Git branch
-				}, -- Empty for centering
+					{ "branch", icon = "" },
+					{
+						"diff",
+						symbols = {
+							added = " ", -- Green plus
+							modified = " ", -- Yellow tilde
+							removed = " ", -- Red minus
+						},
+						source = function()
+							local gitsigns = vim.b.gitsigns_status_dict
+							if gitsigns then
+								return {
+									added = gitsigns.added,
+									modified = gitsigns.changed,
+									removed = gitsigns.removed,
+								}
+							end
+						end,
+					},
+				},
 				lualine_c = {
 					{
 						"diagnostics",
@@ -35,22 +51,21 @@ return {
 							info = " ",
 							hint = "󰠠 ",
 						},
-						color_error = { fg = "#ff6c6b" }, -- Red for errors
-						color_warn = { fg = "#ECBE7B" }, -- Yellow for warnings
-						color_info = { fg = "#98be65" }, -- Green for info
-						color_hint = { fg = "#4FC1FF" }, -- Blue for hints
+						color_error = { fg = "#ff6c6b" },
+						color_warn = { fg = "#ECBE7B" },
+						color_info = { fg = "#98be65" },
+						color_hint = { fg = "#4FC1FF" },
 					},
-					{ "filename", path = 0 }, -- File name only (no path)
+					{ "filename", path = 0 },
 				},
-				-- Right section: Encoding, file format, and location
 				lualine_x = {
-					"encoding", -- File encoding (e.g., utf-8)
-					"fileformat", -- File format (e.g., unix)
-					"filetype", -- File type (e.g., lua)
-					"location", -- Cursor position (line:column)
+					"encoding",
+					"fileformat",
+					"filetype",
+					"location",
 				},
-				lualine_y = {}, -- Empty
-				lualine_z = {}, -- Empty
+				lualine_y = {},
+				lualine_z = {},
 			},
 		})
 		vim.o.laststatus = 3

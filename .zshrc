@@ -87,7 +87,8 @@ sesh_menu_with_icons() {
 }
 alias menu="sesh_menu_with_icons"
 
-export PATH="$PATH:$(go env GOPATH)/bin"
+# export PATH="$SDKMAN_DIR/candidates/java/current/bin:$PATH"
+# export PATH="$PATH:$(go env GOPATH)/bin"
 
 # SDKMAN Initialization
 export SDKMAN_DIR="$HOME/.sdkman"
@@ -98,3 +99,23 @@ export SDKMAN_DIR="$HOME/.sdkman"
 # fi
 
 . "$HOME/.local/bin/env"
+
+alias ld="lazydocker"
+alias lg="lazygit"
+alias k="kubectl"
+# export DOCKER_HOST="unix://$HOME/.docker/run/docker.sock"
+
+# kubectl autocomplete
+source <(kubectl completion zsh)
+
+### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
+export PATH="/Users/sambitbehera/.rd/bin:$PATH"
+### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
+
+# Default editor
+export EDITOR="nvim"
+
+### Symlink docker.sock if it doesn't exist(Rancher Desktop)
+if [ ! -S /var/run/docker.sock ] && [ -S "$HOME/.rd/docker.sock" ]; then
+  sudo ln -sf "$HOME/.rd/docker.sock" /var/run/docker.sock
+fi

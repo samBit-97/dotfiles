@@ -9,25 +9,12 @@ return {
 	config = function()
 		local dap = require("dap")
 		local dapui = require("dapui")
-		-- local dap_virtual_text = require("nvim-dap-virtual-text")
 
 		-- Setup DAP-UI
 		dapui.setup()
 
 		-- Setup dap-go
 		require("dap-go").setup()
-
-		-- -- Setup dap-virtual-text
-		-- dap_virtual_text.setup({
-		-- 	enabled = true, -- Enable by default
-		-- 	enabled_commands = true, -- Create commands for enabling/disabling virtual text
-		-- 	highlight_changed_variables = true, -- Highlight variables that change during execution
-		-- 	highlight_new_as_changed = true, -- Highlight newly created variables
-		-- 	show_stop_reason = true, -- Show stop reason in virtual text
-		-- 	commented = false, -- Do not prefix virtual text with comment symbol
-		-- 	virt_text_pos = "eol", -- Position: 'eol', 'overlay', or 'inline'
-		-- 	all_frames = true, -- Show virtual text for all stack frames
-		-- })
 
 		-- Define Delve Adapter
 		dap.adapters.dlv = {

@@ -11,6 +11,10 @@ return {
 
 		-- configure treesitter
 		treesitter.setup({ -- enable syntax highlighting
+			modules = {},
+			sync_install = false,
+			auto_install = true,
+			ignore_install = {},
 			highlight = {
 				enable = true,
 			},
@@ -56,6 +60,16 @@ return {
 					node_decremental = "<bs>",
 				},
 			},
+		})
+		-- setup folding for markdown
+		vim.api.nvim_create_autocmd("FileType", {
+			pattern = "markdown",
+			callback = function()
+				vim.opt_local.foldmethod = "expr"
+				vim.opt_local.foldexpr = "nvim_treesitter#foldexpr()"
+				vim.opt_local.foldlevel = 99
+				vim.opt_local.foldenable = true
+			end,
 		})
 	end,
 }

@@ -1,87 +1,82 @@
 format = """
-$directory\
-$git_branch\
-$git_status\
-$fill\
-$aws\
-$jobs\
-$cmd_duration\
-$line_break\
-$character"""
+$directory $kubernetes $git_branch$git_status $aws $jobs $cmd_duration$line_break$character"""
 
 add_newline = true
 palette = 'nord'
 
 [directory]
 style = 'bold fg:dark_blue'
-format = '[$path ]($style)'
+format = '[$path]($style)'
 truncation_length = 3
 truncation_symbol = '…/'
 truncate_to_repo = false
 
 [directory.substitutions]
 'Documents' = '󰈙'
-'Downloads' = ' '
-'Music' = ' '
-'Pictures' = ' '
-'~' = ' '
+'Downloads' = ''
+'Music' = ''
+'Pictures' = ''
+'~' = ''
 
 [git_branch]
 style = 'fg:green'
 symbol = ' '
-format = '[on](white) [$symbol$branch ]($style)'
-
-[java]
-style = 'red'
-symbol = ' '
+format = '[$symbol$branch]($style)'
 
 [git_status]
 style = 'fg:green'
-format = '([$all_status$ahead_behind]($style) )'
+format = '([$all_status$ahead_behind]($style))'
 
-[fill]
-symbol = ' '
+[java]
+style = 'red'
+symbol = ''
 
 [python]
 style = 'teal'
-symbol = ' '
-format = '[${symbol}${pyenv_prefix}(${version} )(\($virtualenv\) )]($style)'
+symbol = ''
+format = '[$symbol$pyenv_prefix($version )(\($virtualenv\))]($style)'
 pyenv_version_name = true
 pyenv_prefix = ''
 
 [lua]
-symbol = ' '
+symbol = ''
 
 [nodejs]
 style = 'blue'
-symbol = ' '
+symbol = ''
 
 [golang]
 style = 'blue'
-symbol = ' '
+symbol = ''
 
 [haskell]
 style = 'blue'
-symbol = ' '
+symbol = ''
 
 [rust]
 style = 'orange'
-symbol = ' '
+symbol = ''
 
 [ruby]
 style = 'blue'
-symbol = ' '
+symbol = ''
 
 [package]
-symbol = '󰏗 '
+symbol = '󰏗'
 
 [aws]
 symbol = ' '
 style = 'yellow'
-format = '[$symbol($profile )(\[$duration\] )]($style)'
+format = '[$symbol$profile$duration]($style)'
+
+[kubernetes]
+symbol = '☸️'
+style = 'purple'
+format = '[$symbol$context(\($namespace\))]($style)'
+disabled = false
 
 [jobs]
-symbol = ' '
+symbol = ''
 style = 'red'
 number_threshold = 1
 format = '[$symbol]($style)'
@@ -102,17 +97,17 @@ yellow = '#EBCB8B'
 purple = '#B48EAD'
 gray = '#434C5E'
 black = '#2E3440'
-white='#D8DEE9'
+white = '#D8DEE9'
 
 [palettes.onedark]
-dark_blue='#61afef'
-blue='#56b6c2'
-red='#e06c75'
-green='#98c379'
-purple='#c678dd'
-cyan='#56b6c2'
-orange='#be5046'
-yellow='#e5c07b'
-gray='#828997'
-white ='#abb2bf'
-black='#2c323c'
+dark_blue = '#61afef'
+blue = '#56b6c2'
+red = '#e06c75'
+green = '#98c379'
+purple = '#c678dd'
+cyan = '#56b6c2'
+orange = '#be5046'
+yellow = '#e5c07b'
+gray = '#828997'
+white = '#abb2bf'
+black = '#2c323c'

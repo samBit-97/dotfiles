@@ -22,12 +22,38 @@ return {
 				python = { "isort", "black" },
 				go = { "gofmt" },
 				xml = { "xmlformatter" },
+				java = { "google-java-format" },
+				terraform = { "terraform_fmt" },
+				tf = { "terraform_fmt" },
+			},
+			formatters = {
+				["google-java-format"] = {
+					command = "google-java-format",
+					args = { "--aosp", "-" },
+					stdin = true,
+				},
+				["terraform_fmt"] = {
+					command = "terraform",
+					args = { "fmt", "-" },
+					stdin = true,
+				},
 			},
 			format_on_save = {
 				lsp_fallback = true,
 				async = false,
 				timeout_ms = 1000,
 			},
+		})
+
+		-- Ensure Java files follow Google Java Format style for tabs and new lines
+		vim.api.nvim_create_autocmd("FileType", {
+			pattern = "java",
+			callback = function()
+				vim.bo.expandtab = false -- Use tabs instead of spaces
+				vim.bo.shiftwidth = 4 -- Indentation width
+				vim.bo.tabstop = 4 -- Tab width
+				vim.bo.softtabstop = 4 -- Tab behavior
+			end,
 		})
 
 		vim.keymap.set({ "n", "v" }, "<leader>mp", function()

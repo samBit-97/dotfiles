@@ -23,6 +23,7 @@ return {
 
 		-- Configure mason-lspconfig for installing LSP servers
 		mason_lspconfig.setup({
+			automatic_installation = false,
 			ensure_installed = {
 				"html",
 				"cssls",
@@ -34,6 +35,7 @@ return {
 				"ts_ls",
 				"jdtls",
 				"lemminx",
+				"terraformls",
 			},
 		})
 

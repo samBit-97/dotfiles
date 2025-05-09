@@ -96,3 +96,22 @@ end, { desc = "Toggle test summary" })
 vim.keymap.set("n", "<leader>tw", function()
 	require("neotest").watch.watch()
 end, { desc = "Watch test file for changes" })
+
+keymap.set("n", "<leader>tc", function()
+	if vim.bo.filetype == "python" then
+		require("dap-python").test_class()
+	end
+end)
+
+keymap.set("n", "<leader>tm", function()
+	if vim.bo.filetype == "python" then
+		require("dap-python").test_method()
+	end
+end)
+
+-- Obsidian actions
+vim.keymap.set("n", "<leader>on", "<cmd>ObsidianNew<CR>", { desc = "New coding note" })
+vim.keymap.set("n", "<leader>os", "<cmd>ObsidianSearch<CR>", { desc = "Search coding notes" })
+vim.keymap.set("n", "<leader>oq", "<cmd>ObsidianQuickSwitch<CR>", { desc = "Quick switch notes" })
+vim.keymap.set("n", "<leader>of", "<cmd>ObsidianFollowLink<CR>", { desc = "Follow link" })
+vim.keymap.set("n", "<leader>ob", "<cmd>ObsidianBacklinks<CR>", { desc = "Show backlinks" })
