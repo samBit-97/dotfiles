@@ -4,11 +4,13 @@ return {
 		"nvim-lua/plenary.nvim",
 		"nvim-treesitter/nvim-treesitter",
 		"nvim-neotest/neotest-go", -- Go test adapter
-		"rcasia/neotest-java", -- Java test adapter
+		-- Java test
+		{ "rcasia/neotest-java", version = "*" },
 	},
 	config = function()
 		require("neotest").setup({
 			discovery = {
+				concurrent = 1,
 				enabled = true, -- Force-enable test discovery
 			},
 			adapters = {
