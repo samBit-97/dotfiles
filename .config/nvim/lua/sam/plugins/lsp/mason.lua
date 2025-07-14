@@ -36,6 +36,8 @@ return {
 				"jdtls",
 				"lemminx",
 				"terraformls",
+				"elixirls",
+				"emmet_ls",
 			},
 		})
 

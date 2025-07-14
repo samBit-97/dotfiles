@@ -70,17 +70,17 @@ end, { desc = "Toggle Inlay Hints" })
 -- Run the nearest test (Go or Java)
 vim.keymap.set("n", "<leader>tm", function()
 	require("neotest").run.run()
-end, { desc = "Run nearest test (Java/Go)" })
+end, { desc = "Run nearest test " })
 
--- Run all tests in the current file (Java/Go)
+-- Run all tests in the current file
 vim.keymap.set("n", "<leader>tf", function()
 	require("neotest").run.run(vim.fn.expand("%"))
-end, { desc = "Run all tests in file (Java/Go)" })
+end, { desc = "Run all tests in file " })
 
--- Run the entire test suite (Java/Go)
+-- Run the entire test suite
 vim.keymap.set("n", "<leader>ta", function()
 	require("neotest").run.run(vim.fn.getcwd())
-end, { desc = "Run entire test suite (Java/Go)" })
+end, { desc = "Run entire test suite " })
 
 -- Show the test summary panel
 vim.keymap.set("n", "<leader>tsum", function()
@@ -97,18 +97,18 @@ vim.keymap.set("n", "<leader>tw", function()
 	require("neotest").watch.watch()
 end, { desc = "Watch test file for changes" })
 
-keymap.set("n", "<leader>tc", function()
-	if vim.bo.filetype == "python" then
-		require("dap-python").test_class()
-	end
-end)
-
-keymap.set("n", "<leader>tm", function()
-	if vim.bo.filetype == "python" then
-		require("dap-python").test_method()
-	end
-end)
-
+-- keymap.set("n", "<leader>tc", function()
+-- 	if vim.bo.filetype == "python" then
+-- 		require("dap-python").test_class()
+-- 	end
+-- end)
+--
+-- keymap.set("n", "<leader>tm", function()
+-- 	if vim.bo.filetype == "python" then
+-- 		require("dap-python").test_method()
+-- 	end
+-- end)
+--
 -- Obsidian actions
 vim.keymap.set("n", "<leader>on", "<cmd>ObsidianNew<CR>", { desc = "New coding note" })
 vim.keymap.set("n", "<leader>os", "<cmd>ObsidianSearch<CR>", { desc = "Search coding notes" })

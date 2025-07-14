@@ -5,10 +5,11 @@ font-size = 16.6
 theme = catppuccin-mocha
 shell-integration-features = no-cursor,sudo,no-title
 cursor-style = block
-cursor-invert-fg-bg
+# cursor-invert-fg-bg
+cursor-color = "#dc8a78"
 adjust-cell-height = 35%
-# background-opacity = 0.7
-# background-blur = true
+background-opacity = 0.75
+background-blur = true
 
 mouse-hide-while-typing = true
 mouse-scroll-multiplier = 2
@@ -17,8 +18,8 @@ window-padding-balance = true
 window-save-state = always
 macos-titlebar-style=hidden
 window-colorspace = "display-p3"
-background = 1C2021
-foreground = d4be98
+# background = 1C2021
+# foreground = d4be98
 
 # keybindings
 keybind = cmd+s>r=reload_config

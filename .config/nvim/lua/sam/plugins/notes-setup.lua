@@ -12,7 +12,7 @@ return {
 			workspaces = {
 				{
 					name = "coding",
-					path = "~/Documents/coding-notes",
+					path = "~/Documents/second-brain",
 				},
 			},
 			ui = {
@@ -46,5 +46,18 @@ return {
 				-- Or if Linux: vim.fn.jobstart({ "xdg-open", url }, { detach = true })
 			end,
 		},
+	},
+
+	-- Live Markdown preview in browser
+	{
+		"iamcco/markdown-preview.nvim",
+		build = "cd app && npm install",
+		ft = { "markdown" },
+		cmd = { "MarkdownPreview", "MarkdownPreviewStop", "MarkdownPreviewToggle" },
+		init = function()
+			vim.g.mkdp_auto_start = 0
+			vim.g.mkdp_auto_close = 1
+			vim.g.mkdp_filetypes = { "markdown" }
+		end,
 	},
 }

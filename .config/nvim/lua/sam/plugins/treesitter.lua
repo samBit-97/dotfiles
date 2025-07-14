@@ -50,6 +50,10 @@ return {
 				"java",
 				"sql",
 				"xml",
+				"elixir",
+				"eex",
+				"heex",
+				"surface",
 			},
 			incremental_selection = {
 				enable = true,

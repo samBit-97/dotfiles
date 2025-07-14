@@ -96,14 +96,14 @@ vim.keymap.set(
 	"<Esc><Cmd>lua require('jdtls').extract_method(true)<CR>",
 	{ desc = "Extract Method" }
 )
-vim.keymap.set("n", "<leader>tc", function()
-	if vim.bo.filetype == "java" then
-		require("jdtls").test_class()
-	end
-end)
-
-vim.keymap.set("n", "<leader>tm", function()
-	if vim.bo.filetype == "java" then
-		require("jdtls").test_nearest_method()
-	end
-end)
+-- vim.keymap.set("n", "<leader>tc", function()
+-- 	if vim.bo.filetype == "java" then
+-- 		require("jdtls").test_class()
+-- 	end
+-- end)
+--
+-- vim.keymap.set("n", "<leader>tm", function()
+-- 	if vim.bo.filetype == "java" then
+-- 		require("jdtls").test_nearest_method()
+-- 	end
+-- end)

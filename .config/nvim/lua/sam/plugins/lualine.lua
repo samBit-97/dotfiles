@@ -21,24 +21,6 @@ return {
 				},
 				lualine_b = {
 					{ "branch", icon = "" },
-					{
-						"diff",
-						symbols = {
-							added = " ", -- Green plus
-							modified = " ", -- Yellow tilde
-							removed = " ", -- Red minus
-						},
-						source = function()
-							local gitsigns = vim.b.gitsigns_status_dict
-							if gitsigns then
-								return {
-									added = gitsigns.added,
-									modified = gitsigns.changed,
-									removed = gitsigns.removed,
-								}
-							end
-						end,
-					},
 				},
 				lualine_c = {
 					{
@@ -68,9 +50,5 @@ return {
 				lualine_z = {},
 			},
 		})
-		vim.o.laststatus = 3
-		vim.api.nvim_set_hl(0, "WinSeparator", { bg = "NONE" })
-		vim.o.winbar = "%=%{%v:lua.require('custom-winbar').get_winbar()%}%="
-		vim.o.tabline = "%!v:lua.require('custom-tabline').generateTabline()"
 	end,
 }

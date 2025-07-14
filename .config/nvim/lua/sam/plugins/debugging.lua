@@ -30,10 +30,12 @@ return {
 		-- Debugging Configurations for Go
 		dap.configurations.go = {
 			{
-				type = "dlv", -- Correct type for Delve adapter
+				type = "dlv", -- Delve adapter
 				name = "Launch Go Package",
 				request = "launch",
-				program = "${workspaceFolder}/cmd/api/", -- Debug package in `cmd/api/`
+				program = function()
+					return vim.fn.input("Path to Go package or file: ", vim.fn.getcwd() .. "/cmd/api/", "file")
+				end,
 			},
 			{
 				type = "dlv", -- Correct type for Delve adapter
@@ -49,16 +51,57 @@ return {
 			},
 		}
 
+		-- Debugging configurations for elixir
+		dap.adapters.mix_task = {
+			type = "executable",
+			command = vim.fn.stdpath("data") .. "/mason/packages/elixir-ls/debug_adapter.sh",
+		}
+
+		dap.configurations.elixir = {
+			{
+				type = "mix_task",
+				name = "mix test (DAP)",
+				request = "launch",
+				task = "test",
+				taskArgs = { "--trace" },
+				startApps = true,
+				projectDir = "${workspaceFolder}",
+				requireFiles = {
+					"test/**/test_helper.exs",
+					"test/**/*_test.exs",
+				},
+			},
+			{
+				type = "mix_task",
+				name = "mix phx.server (DAP)",
+				request = "launch",
+				task = "phx.server",
+				taskArgs = {},
+				startApps = true,
+				projectDir = "${workspaceFolder}",
+				requireFiles = {
+					"lib/**/*.ex",
+				},
+			},
+			{
+				type = "mix_task",
+				name = "Attach to running app",
+				remoteNode = "debug@127.0.0.1",
+				request = "attach",
+				projectDir = "${workspaceFolder}",
+			},
+		}
+
 		-- Debug listeners to manage DAP-UI
 		dap.listeners.before.event_initialized["dapui_config"] = function()
 			dapui.open()
 		end
-		dap.listeners.before.event_terminated["dapui_config"] = function()
-			dapui.close()
-		end
-		dap.listeners.before.event_exited["dapui_config"] = function()
-			dapui.close()
-		end
+		-- dap.listeners.before.event_terminated["dapui_config"] = function()
+		-- 	dapui.close()
+		-- end
+		-- dap.listeners.before.event_exited["dapui_config"] = function()
+		-- 	dapui.close()
+		-- end
 
 		-- Keymaps for Debugging
 		vim.keymap.set("n", "<Leader>dt", dap.toggle_breakpoint, { desc = "Toggle Breakpoint" })

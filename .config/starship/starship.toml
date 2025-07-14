@@ -11,13 +11,6 @@ truncation_length = 3
 truncation_symbol = '…/'
 truncate_to_repo = false
 
-[directory.substitutions]
-'Documents' = '󰈙'
-'Downloads' = ''
-'Music' = ''
-'Pictures' = ''
-'~' = ''
-
 [git_branch]
 style = 'fg:green'
 symbol = ' '
@@ -70,7 +63,6 @@ style = 'yellow'
 format = '[$symbol$profile$duration]($style)'
 
 [kubernetes]
-symbol = '☸️'
 style = 'purple'
 format = '[$symbol$context(\($namespace\))]($style)'
 disabled = false

@@ -28,10 +28,15 @@ return {
 					telescope = true, -- Telescope integration
 					treesitter = true, -- Treesitter integration
 					which_key = true, -- WhichKey integration
+					bufferline = true, -- bufferline integration
 				},
 				highlight_overrides = {
 					mocha = function(colors)
 						return {
+							CursorLine = { bg = colors.surface1 }, -- soft, slightly lighter than default bg
+							CursorLineNr = { fg = colors.lavender, bold = true },
+							Visual = { bg = colors.surface2, blend = 10 }, -- slightly stronger than CursorLine
+							LineNr = { fg = colors.overlay0 },
 							Comment = { fg = colors.overlay2, style = { "italic" } },
 							Function = { fg = colors.blue, style = { "bold" } },
 							Keyword = { fg = colors.mauve, style = { "italic" } },

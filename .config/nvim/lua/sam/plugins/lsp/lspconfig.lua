@@ -100,6 +100,23 @@ return {
 					},
 				})
 			end,
+			["emmet_ls"] = function()
+				-- configure emmet language server
+				lspconfig["emmet_ls"].setup({
+					capabilities = capabilities,
+					filetypes = {
+						"html",
+						"typescriptreact",
+						"javascriptreact",
+						"css",
+						"sass",
+						"scss",
+						"less",
+						"svelte",
+						"heex",
+					},
+				})
+			end,
 			["gopls"] = function()
 				lspconfig["gopls"].setup({
 					capabilities = capabilities,
@@ -159,6 +176,25 @@ return {
 			["terraformls"] = function()
 				lspconfig["terraformls"].setup({
 					capabilities = capabilities,
+				})
+			end,
+
+			-- Elixir lspconfig
+			["elixirls"] = function()
+				lspconfig.elixirls.setup({
+					capabilities = capabilities,
+					cmd = {
+						vim.fn.stdpath("data") .. "/mason/packages/elixir-ls/language_server.sh",
+					},
+					settings = {
+						elixirLS = {
+							dialyzerEnabled = false,
+							fetchDeps = false,
+							experimentalFeatures = {
+								codeGen = true, -- this is needed for "generate stub" code actions
+							},
+						},
+					},
 				})
 			end,
 		})

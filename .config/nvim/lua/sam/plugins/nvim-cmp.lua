@@ -51,6 +51,7 @@ return {
 				{ name = "nvim_lsp" },
 				{ name = "buffer" }, -- text within current buffer
 				{ name = "path" }, -- file system paths
+				{ name = "emmet" },
 			}),
 			mapping = cmp.mapping.preset.insert({
 				["<C-k>"] = cmp.mapping.select_prev_item(), -- previous suggestion
