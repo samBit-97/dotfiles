@@ -29,4 +29,4 @@ yabai -m rule --add app="^System Settings$" manage=off
 yabai -m rule --add app="^Calculator$" manage=off
 yabai -m rule --add app="^Karabiner-Elements$" manage=off
 
-yabai -m config external_bar all:32:0
+# yabai -m config external_bar all:18:0

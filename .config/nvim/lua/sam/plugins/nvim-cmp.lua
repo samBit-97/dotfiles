@@ -24,6 +24,9 @@ return {
 		-- loads vscode style snippets from installed plugins (e.g. friendly-snippets)
 		require("luasnip.loaders.from_vscode").lazy_load()
 
+		-- load custom lua snippets
+		require("luasnip.loaders.from_lua").load({ paths = "~/.config/nvim/lua/snippets" })
+
 		-- Setup up vim-dadbod
 		cmp.setup.filetype({ "sql" }, {
 			sources = {

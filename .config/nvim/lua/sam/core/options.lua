@@ -46,3 +46,5 @@ opt.swapfile = false
 -- Conceal for prettier markdown
 vim.opt.conceallevel = 2
 vim.opt.concealcursor = "nc"
+
+-- vim.opt.winbar = "%=%f"

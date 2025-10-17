@@ -1,0 +1,8 @@
+# Claude Code instructions (personal)
+.config/nvim/CLAUDE.md
+
+# IDE
+.idea/
+
+# Samples/testing
+sample.js

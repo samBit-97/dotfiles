@@ -17,7 +17,32 @@ return {
 		vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "InsertLeave" }, {
 			group = lint_augroup,
 			callback = function()
-				lint.try_lint()
+				-- Only lint if we can find a linter config file
+				local ft = vim.bo.filetype
+				if ft == "javascript" or ft == "typescript" or ft == "javascriptreact" or ft == "typescriptreact" then
+					-- Check if eslint config exists in project root
+					local config_files = {
+						".eslintrc",
+						".eslintrc.js",
+						".eslintrc.json",
+						".eslintrc.yml",
+						"eslint.config.js",
+					}
+					local root = vim.fn.getcwd()
+					local has_config = false
+					for _, config in ipairs(config_files) do
+						if vim.fn.filereadable(root .. "/" .. config) == 1 then
+							has_config = true
+							break
+						end
+					end
+					if has_config then
+						lint.try_lint()
+					end
+				else
+					-- For other filetypes, lint normally
+					lint.try_lint()
+				end
 			end,
 		})
 

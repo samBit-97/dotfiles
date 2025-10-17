@@ -5,7 +5,7 @@ return {
 		require("lualine").setup({
 			options = {
 				icons_enabled = true,
-				theme = "onedark",
+				theme = "nord",
 				component_separators = { left = "", right = "" },
 				section_separators = { left = "", right = "" },
 				globalstatus = false,
@@ -38,7 +38,21 @@ return {
 						color_info = { fg = "#98be65" },
 						color_hint = { fg = "#4FC1FF" },
 					},
-					{ "filename", path = 0 },
+					{
+						function()
+							-- Get file name
+							local filename = vim.fn.expand("%:t")
+							local display = " " .. filename
+
+							-- Add [+] if file is modified
+							if vim.bo.modified then
+								display = display .. " [+]"
+							end
+
+							return display
+						end,
+						color = { fg = "#ffffff", gui = "bold" },
+					},
 				},
 				lualine_x = {
 					"encoding",
