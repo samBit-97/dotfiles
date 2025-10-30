@@ -200,6 +200,45 @@ return {
 					},
 				})
 			end,
+			["clangd"] = function()
+				lspconfig.clangd.setup({
+					capabilities = capabilities,
+					cmd = {
+						"/opt/homebrew/opt/llvm/bin/clangd",
+						"--offset-encoding=utf-16",
+						"--header-insertion=iwyu", -- Include What You Use
+						"--clang-tidy", -- Enable clang-tidy checks
+						"--clang-tidy-checks=*",
+						"--completion-style=detailed",
+						"--enable-config", -- Load .clang-tidy and .clang-format from project
+					},
+					cmd_env = {
+						PATH = "/opt/homebrew/opt/llvm/bin:" .. vim.env.PATH,
+					},
+					filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
+					root_dir = function(fname)
+						-- First try project-level patterns
+						local root =
+							lspconfig.util.root_pattern("compile_commands.json", "compile_flags.txt", ".git")(fname)
+						-- If no project root found, use home directory to pick up global compile_flags.txt
+						return root or os.getenv("HOME")
+					end,
+					settings = {
+						clangd = {
+							-- C++23 support with libc++
+							CompileFlags = {
+								Add = { "-std=c++23", "-stdlib=libc++" },
+							},
+						},
+					},
+					on_attach = function(client, bufnr)
+						-- Enable inlay hints for clangd
+						if client.server_capabilities.inlayHintProvider then
+							vim.lsp.inlay_hint.enable(false)
+						end
+					end,
+				})
+			end,
 		})
 		vim.api.nvim_create_autocmd("LspAttach", {
 			group = vim.api.nvim_create_augroup("InlayHints", {}),

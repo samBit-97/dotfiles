@@ -25,6 +25,8 @@ return {
 				java = { "google-java-format" },
 				terraform = { "terraform_fmt" },
 				tf = { "terraform_fmt" },
+				c = { "clang-format" },
+				cpp = { "clang-format" },
 			},
 			formatters = {
 				["google-java-format"] = {
@@ -35,6 +37,10 @@ return {
 				["terraform_fmt"] = {
 					command = "terraform",
 					args = { "fmt", "-" },
+					stdin = true,
+				},
+				["clang-format"] = {
+					command = "/opt/homebrew/opt/llvm/bin/clang-format",
 					stdin = true,
 				},
 			},

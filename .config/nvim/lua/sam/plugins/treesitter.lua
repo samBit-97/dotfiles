@@ -54,6 +54,7 @@ return {
 				"eex",
 				"heex",
 				"surface",
+				"proto",
 			},
 			incremental_selection = {
 				enable = true,

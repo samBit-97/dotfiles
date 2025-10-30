@@ -38,6 +38,7 @@ return {
 				"terraformls",
 				"elixirls",
 				"emmet_ls",
+				"clangd", -- C/C++ language server
 			},
 		})
 
@@ -57,7 +58,9 @@ return {
 				"golangci-lint",
 				"delve",
 				"xmlformatter",
-			},
+				"clang-format", -- C/C++ formatter
+				-- Note: clang-tidy is not available in Mason, install via: brew install clang-tools (macOS)
+				},
 		})
 		return base_opts
 	end,

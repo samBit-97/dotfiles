@@ -9,8 +9,8 @@ cursor-style = block
 # cursor-invert-fg-bg
 cursor-color = "#ffffff"
 adjust-cell-height = 35%
-background-opacity = 0.85
-background-blur = true
+# background-opacity = 0.85
+# background-blur = true
 
 mouse-hide-while-typing = true
 mouse-scroll-multiplier = 2
@@ -62,3 +62,4 @@ keybind = cmd+s>e=equalize_splits
 
 # other
 copy-on-select = clipboard
+keybind = shift+enter=text:\x1b\r

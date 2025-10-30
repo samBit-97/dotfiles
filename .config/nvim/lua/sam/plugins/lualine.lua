@@ -5,9 +5,9 @@ return {
 		require("lualine").setup({
 			options = {
 				icons_enabled = true,
-				theme = "nord",
-				component_separators = { left = "", right = "" },
-				section_separators = { left = "", right = "" },
+				theme = "dracula",
+				component_separators = { left = "", right = "" },
+				section_separators = { left = "", right = "" },
 				globalstatus = false,
 			},
 			sections = {
@@ -20,29 +20,17 @@ return {
 					},
 				},
 				lualine_b = {
-					{ "branch", icon = "" },
+					{ "branch", icon = "" },
 				},
 				lualine_c = {
 					{
-						"diagnostics",
-						sources = { "nvim_diagnostic" },
-						sections = { "error", "warn", "info", "hint" },
-						symbols = {
-							error = " ",
-							warn = " ",
-							info = " ",
-							hint = "󰠠 ",
-						},
-						color_error = { fg = "#ff6c6b" },
-						color_warn = { fg = "#ECBE7B" },
-						color_info = { fg = "#98be65" },
-						color_hint = { fg = "#4FC1FF" },
-					},
-					{
 						function()
-							-- Get file name
-							local filename = vim.fn.expand("%:t")
-							local display = " " .. filename
+							-- Get full file path
+							local filepath = vim.fn.expand("%:p")
+							-- Replace home directory with ~
+							local home = vim.fn.expand("~")
+							filepath = filepath:gsub("^" .. home, "~")
+							local display = " " .. filepath
 
 							-- Add [+] if file is modified
 							if vim.bo.modified then
@@ -55,10 +43,7 @@ return {
 					},
 				},
 				lualine_x = {
-					"encoding",
-					"fileformat",
 					"filetype",
-					"location",
 				},
 				lualine_y = {},
 				lualine_z = {},

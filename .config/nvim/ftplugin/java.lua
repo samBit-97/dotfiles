@@ -24,11 +24,38 @@ local project_m2_repo = root_dir .. "/.m2/repository"
 local has_local_m2 = vim.fn.filereadable(project_m2_settings) == 1
 
 local mason_path = vim.fn.stdpath("data") .. "/mason/packages/"
-local bundles = {
-	vim.fn.glob(mason_path .. "java-debug-adapter/extension/server/com.microsoft.java.debug.plugin-*.jar"),
-}
--- Comment out java-test bundles due to OSGi dependency issues
--- vim.list_extend(bundles, vim.split(vim.fn.glob(mason_path .. "java-test/extension/server/*.jar"), "\n"))
+
+local bundles = {}
+
+-- Add java-debug-adapter (main plugin only)
+local debug_jar = vim.fn.glob(mason_path .. "java-debug-adapter/extension/server/com.microsoft.java.debug.plugin-*.jar")
+if debug_jar ~= "" then
+	table.insert(bundles, debug_jar)
+end
+
+-- Add java-test plugin (main plugin only, NOT the runner or agent)
+-- Only include actual OSGi bundles, skip runner-jar and agent JARs
+local test_plugin_jar = vim.fn.glob(mason_path .. "java-test/extension/server/com.microsoft.java.test.plugin-*.jar")
+if test_plugin_jar ~= "" then
+	table.insert(bundles, test_plugin_jar)
+end
+
+-- Add test dependency bundles (junit only, skip jacoco/asm due to version conflicts)
+local test_jars_glob = vim.fn.glob(mason_path .. "java-test/extension/server/*.jar", false, true)
+for _, jar in ipairs(test_jars_glob) do
+	if jar ~= "" and jar ~= test_plugin_jar then
+		-- Skip non-bundle JARs and problematic dependencies
+		local basename = vim.fn.fnamemodify(jar, ":t")
+		if
+			not string.find(basename, "runner%-jar%-with%-dependencies")
+			and not string.find(basename, "jacocoagent")
+			and not string.find(basename, "jacoco")
+			and not string.find(basename, "asm")
+		then
+			table.insert(bundles, jar)
+		end
+	end
+end
 
 -- Build cmd with conditional maven.repo.local
 local cmd = {
@@ -117,7 +144,13 @@ local config = {
 
 config["on_attach"] = function(client, bufnr)
 	jdtls.setup_dap({ hotcodereplace = "auto" })
-	require("jdtls.dap").setup_dap_main_class_configs()
+
+	-- Delay dap_main_class_configs to ensure server is ready
+	vim.defer_fn(function()
+		pcall(function()
+			require("jdtls.dap").setup_dap_main_class_configs()
+		end)
+	end, 500)
 end
 
 require("jdtls").start_or_attach(config)
@@ -143,14 +176,24 @@ vim.keymap.set(
 	"<Esc><Cmd>lua require('jdtls').extract_method(true)<CR>",
 	{ desc = "Extract Method" }
 )
-vim.keymap.set("n", "<leader>tc", function()
-	if vim.bo.filetype == "java" then
-		require("jdtls").test_class()
-	end
-end)
+-- COMMENTED OUT: Using neotest for all test operations
+-- jdtls.test_class() and jdtls.test_nearest_method() are replaced by neotest
+-- which provides a unified testing interface across all languages
 
-vim.keymap.set("n", "<leader>tm", function()
-	if vim.bo.filetype == "java" then
-		require("jdtls").test_nearest_method()
-	end
-end)
+-- vim.keymap.set("n", "<leader>tc", function()
+-- 	if vim.bo.filetype == "java" then
+-- 		require("jdtls").test_class()
+-- 	end
+-- end)
+
+-- vim.keymap.set("n", "<leader>tm", function()
+-- 	if vim.bo.filetype == "java" then
+-- 		require("jdtls").test_nearest_method()
+-- 	end
+-- end)
+
+-- Use neotest instead:
+-- <leader>tt - Run nearest test
+-- <leader>tf - Run all tests in file
+-- <leader>ta - Run entire test suite
+-- <leader>td - Debug nearest test

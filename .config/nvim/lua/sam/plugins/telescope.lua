@@ -78,6 +78,47 @@ return {
 					},
 				},
 			},
+			pickers = {
+				find_files = {
+					theme = "ivy",
+				},
+				oldfiles = {
+					theme = "ivy",
+				},
+				buffers = {
+					theme = "ivy",
+				},
+				live_grep = {
+					theme = "ivy",
+				},
+				grep_string = {
+					theme = "ivy",
+				},
+				lsp_document_symbols = {
+					theme = "ivy",
+				},
+				lsp_workspace_symbols = {
+					theme = "ivy",
+				},
+				git_commits = {
+					theme = "ivy",
+				},
+				git_branches = {
+					theme = "ivy",
+				},
+				git_status = {
+					theme = "ivy",
+				},
+				help_tags = {
+					theme = "ivy",
+				},
+				keymaps = {
+					theme = "ivy",
+				},
+				commands = {
+					theme = "ivy",
+				},
+			},
 		})
 
 		telescope.load_extension("fzf")
