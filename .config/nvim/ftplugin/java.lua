@@ -6,6 +6,8 @@ local jdtls = require("jdtls")
 local root_dir = require("jdtls.setup").find_root({ ".git" })
 	or require("jdtls.setup").find_root({ "mvnw", "gradlew" })
 	or require("jdtls.setup").find_root({ "pom.xml", "build.gradle" })
+	or require("jdtls.setup").find_root({ ".classpath", ".project" })
+	or require("jdtls.setup").find_root({ "*.iml", ".idea" })
 
 -- Exit if no root found
 if not root_dir then
@@ -96,6 +98,19 @@ local config = {
 	settings = {
 		java = {
 			signatureHelp = { enabled = true },
+			completion = {
+				favoriteStaticMembers = {
+					"org.junit.jupiter.api.Assertions.*",
+					"org.junit.jupiter.api.Assumptions.*",
+					"org.junit.jupiter.api.DynamicTest.*",
+					"org.mockito.Mockito.*",
+					"org.mockito.ArgumentMatchers.*",
+					"org.mockito.Answers.*",
+					"org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*",
+					"org.springframework.test.web.servlet.result.MockMvcResultMatchers.*",
+					"org.springframework.test.web.servlet.result.MockMvcResultHandlers.*",
+				},
+			},
 			import = {
 				maven = {
 					enabled = true,
@@ -132,7 +147,10 @@ local config = {
 		},
 	},
 
-	capabilities = require("cmp_nvim_lsp").default_capabilities(),
+	capabilities = (function()
+		local ok, cmp_lsp = pcall(require, "cmp_nvim_lsp")
+		return ok and cmp_lsp.default_capabilities() or vim.lsp.protocol.make_client_capabilities()
+	end)(),
 	flags = {
 		allow_incremental_sync = true,
 	},

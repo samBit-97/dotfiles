@@ -7,6 +7,7 @@ local themes = {
 	catppuccin = "sam.plugins.themes.catppuccin",
 	nord = "sam.plugins.themes.nord",
 	onedark = "sam.plugins.themes.onedark",
+	gruvbox = "sam.plugins.themes.gruvbox",
 }
 
 -- Load the selected theme

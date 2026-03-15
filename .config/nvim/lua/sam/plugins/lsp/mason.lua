@@ -2,18 +2,9 @@ return {
 	"williamboman/mason.nvim",
 	event = "BufReadPre",
 	cmd = "Mason",
-	dependencies = {
-		"williamboman/mason-lspconfig.nvim",
-		"WhoIsSethDaniel/mason-tool-installer.nvim",
-	},
-	opts = function()
-		-- Set up the base configuration for mason, mason-lspconfig, and mason-tool-installer.
-		require("mason").setup()
-		local mason_lspconfig = require("mason-lspconfig")
-		local mason_tool_installer = require("mason-tool-installer")
-
-		-- Configure mason
-		local base_opts = {
+	dependencies = { "WhoIsSethDaniel/mason-tool-installer.nvim" },
+	config = function()
+		require("mason").setup({
 			ui = {
 				icons = {
 					package_installed = "✓",
@@ -21,36 +12,30 @@ return {
 					package_uninstalled = "✗",
 				},
 			},
-		}
-
-		-- Configure mason-lspconfig for installing LSP servers
-		mason_lspconfig.setup({
-			automatic_installation = false,
-			ensure_installed = {
-				"html",
-				"cssls",
-				"tailwindcss",
-				"lua_ls",
-				"graphql",
-				"pyright",
-				"gopls",
-				"ts_ls",
-				"jdtls",
-				"lemminx",
-				"terraformls",
-				"elixirls",
-				"emmet_ls",
-				"clangd", -- C/C++ language server
-			},
 		})
 
-		-- Configure mason-tool-installer for additional tools and formatters
-		mason_tool_installer.setup({
+		require("mason-tool-installer").setup({
 			ensure_installed = {
-				"prettier", -- prettier formatter
-				"stylua", -- lua formatter
-				"isort", -- python formatter
-				"black", -- python formatter
+				-- LSP servers (mason package names)
+				"html-lsp",
+				"css-lsp",
+				"tailwindcss-language-server",
+				"lua-language-server",
+				"graphql-language-service-cli",
+				"pyright",
+				"gopls",
+				"typescript-language-server",
+				"jdtls",
+				"lemminx",
+				"terraform-ls",
+				"elixir-ls",
+				"emmet-ls",
+				"clangd",
+				-- Tools
+				"prettier",
+				"stylua",
+				"isort",
+				"black",
 				"pylint",
 				"eslint_d",
 				"java-test",
@@ -60,10 +45,8 @@ return {
 				"golangci-lint",
 				"delve",
 				"xmlformatter",
-				"clang-format", -- C/C++ formatter
-				-- Note: clang-tidy is not available in Mason, install via: brew install clang-tools (macOS)
-				},
+				"clang-format",
+			},
 		})
-		return base_opts
 	end,
 }

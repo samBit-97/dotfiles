@@ -120,7 +120,6 @@ local function get_visual_selection()
 	return table.concat(lines, "\n")
 end
 
-
 -- Common function to run queries with any backend
 local function run_query(name, cmd, query_text)
 	-- Check if this is a mongosh command - prompt for database name
@@ -146,10 +145,20 @@ local function run_query(name, cmd, query_text)
 		local full_cmd
 		-- Check if command uses --eval (mongosh style) - pass query as argument
 		if final_cmd:match("%-%-eval") then
-			full_cmd = final_cmd .. " " .. vim.fn.shellescape(query_text) .. " > " .. vim.fn.shellescape(outfile) .. " 2>&1"
+			full_cmd = final_cmd
+				.. " "
+				.. vim.fn.shellescape(query_text)
+				.. " > "
+				.. vim.fn.shellescape(outfile)
+				.. " 2>&1"
 		else
 			-- Standard mode - pipe from stdin (psql, mysql, etc.)
-			full_cmd = final_cmd .. " < " .. vim.fn.shellescape(tmpfile) .. " > " .. vim.fn.shellescape(outfile) .. " 2>&1"
+			full_cmd = final_cmd
+				.. " < "
+				.. vim.fn.shellescape(tmpfile)
+				.. " > "
+				.. vim.fn.shellescape(outfile)
+				.. " 2>&1"
 		end
 		local result = vim.fn.system(full_cmd)
 		local exit_code = vim.v.shell_error
@@ -159,7 +168,10 @@ local function run_query(name, cmd, query_text)
 
 		-- Check for errors
 		if exit_code ~= 0 then
-			vim.notify(string.format("[query-runner] Command failed with exit code %d", exit_code), vim.log.levels.ERROR)
+			vim.notify(
+				string.format("[query-runner] Command failed with exit code %d", exit_code),
+				vim.log.levels.ERROR
+			)
 		end
 
 		-- Open or focus existing results split, then reload contents
@@ -173,7 +185,11 @@ local function run_query(name, cmd, query_text)
 
 		-- Done message with timing
 		local ms = math.floor((vim.loop.hrtime() - t0) / 1e6)
-		vim.api.nvim_echo({ { string.format("[query-runner] %s query done in %d ms", name, ms), "ModeMsg" } }, false, {})
+		vim.api.nvim_echo(
+			{ { string.format("[query-runner] %s query done in %d ms", name, ms), "ModeMsg" } },
+			false,
+			{}
+		)
 	end
 
 	-- If mongosh, use cached database or prompt for database name
@@ -366,7 +382,10 @@ function M.change_database()
 	end
 
 	if not M.selected_command.cmd:match("mongosh") then
-		vim.notify("[query-runner] Current command is not MongoDB. Database change only works for mongosh.", vim.log.levels.WARN)
+		vim.notify(
+			"[query-runner] Current command is not MongoDB. Database change only works for mongosh.",
+			vim.log.levels.WARN
+		)
 		return
 	end
 
@@ -385,7 +404,10 @@ function M.change_database()
 		db_cache[M.selected_command.alias] = db_name
 		save_db_cache()
 
-		vim.notify(string.format('[query-runner] Changed database to "%s" for %s', db_name, M.selected_command.alias), vim.log.levels.INFO)
+		vim.notify(
+			string.format('[query-runner] Changed database to "%s" for %s', db_name, M.selected_command.alias),
+			vim.log.levels.INFO
+		)
 	end)
 end
 

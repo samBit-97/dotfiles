@@ -33,19 +33,67 @@ The configuration supports multiple languages with LSP, debugging, and testing:
 - **Java**: LSP (jdtls), testing (neotest-java)
 - **Elixir**: Testing (neotest-elixir)
 - **Python**: Debugging support
+- **C/C++**: LSP (clangd), static analysis (clang-tidy), formatting (clang-format), debugging (lldb) - requires `brew install llvm`
 - **Web Technologies**: TypeScript, JavaScript, HTML, CSS, Tailwind
 
-### Key Testing Commands
-- `<leader>tm` - Run nearest test
+### Enhanced Testing Commands (neotest)
+- `<leader>tt` - Run nearest test
 - `<leader>tf` - Run all tests in current file
 - `<leader>ta` - Run entire test suite
-- `<leader>tsum` - Toggle test summary panel
-- `<leader>tw` - Watch test file for changes
+- `<leader>ts` - Toggle test summary panel
+- `<leader>to` - Show test output
+- `<leader>tO` - Toggle output panel
+- `<leader>tw` - Toggle watch mode
+- `<leader>tS` - Stop running tests
+- `<leader>td` - Debug nearest test
 
-### Debugging (DAP)
-- Go debugging configured with delve adapter
-- Python debugging support available
-- DAP-UI for debugging interface
+**Language Support:**
+- ✅ **Go**: Full neotest support (test discovery, debugging)
+- ✅ **Java**: JUnit tests with neotest-java
+- ✅ **Elixir**: ExUnit tests with neotest-elixir
+- ✅ **Python**: pytest/unittest with neotest-python
+- ✅ **C++**: Google Test framework with neotest-gtest
+
+### Enhanced Debugging (DAP)
+- **Go**: Debugging with delve adapter + test debugging
+- **Java**: Debugging with JDTLS integration + test debugging
+- **Elixir**: Debugging with mix tasks + test debugging
+- **C/C++**: Debugging with lldb adapter (lldb-dap)
+- **Python**: Debugging with debugpy adapter + test debugging
+- Enhanced DAP-UI with improved layout
+- Virtual text for inline variable display
+- Breakpoint management with conditions
+
+#### Debug Commands
+- `<leader>dt` - Toggle breakpoint
+- `<leader>dT` - Conditional breakpoint (prompts for condition)
+- `<leader>dc` - Start/Continue debugging
+- `<leader>dx` - Stop debugging
+- `<leader>dr` - Restart debugging
+- `<leader>dp` - Pause debugging
+- `<leader>du` - Toggle debug UI
+- `<leader>de` - Evaluate expression (prompts for expression)
+- `<leader>ds` - Show scopes
+- `<leader>dw` - Show watches
+- `<leader>dk` - Show call stack
+- `<leader>db` - Show breakpoints
+
+**Language-specific Debug Commands:**
+- `<leader>dgt` - Debug Go test
+- `<leader>djc` - Debug Java test class
+- `<leader>djm` - Debug Java test method
+- `<leader>det` - Debug Elixir test
+- `<leader>dpt` - Debug Python test method
+- `<leader>dpc` - Debug Python test class
+- `<leader>dct` - Start C++ Debugging
+
+### Coverage Visualization
+- `<leader>cc` - Load coverage
+- `<leader>cs` - Coverage summary
+- `<leader>ct` - Toggle coverage
+- `<leader>cg` - Generate Go coverage
+- `<leader>cj` - Generate Java coverage
+- `<leader>ce` - Generate Elixir coverage
 
 ## Important Configuration Details
 
@@ -94,6 +142,17 @@ Many plugins use lazy loading with events like:
 - Telescope for fuzzy finding (`<leader>ff`, `<leader>fs`, etc.)
 - Oil.nvim for file management
 - Neo-tree for file explorer
+- Enhanced buffer line with diagnostics and better styling
+
+#### Buffer Management
+- `<leader>bp` - Buffer pick
+- `<leader>bd` - Buffer pick close
+- `<leader>bc` - Close other buffers
+- `<leader>bh` - Close left buffers
+- `<leader>bl` - Close right buffers
+- `<leader>bs` - Sort by directory
+- `<leader>bm` - Toggle pin
+- `<leader>b1-9` - Go to buffer 1-9
 
 ### Code Navigation
 - LSP-based navigation (gd, gR, gi, gt)
@@ -104,6 +163,35 @@ Many plugins use lazy loading with events like:
 - Gitsigns for git status in files
 - Lazygit integration for git operations
 
-### Terminal Integration
-- Terminal keymaps configured for toggleterm
+### Terminal Integration (toggleterm + custom-terminal)
+- **toggleterm**: `<Ctrl-\>` to toggle terminal, `<leader>tt` (horizontal), `<leader>tf` (floating), `<leader>tv` (vertical)
+- **custom-terminal** (legacy): `<leader>st` (split), `<leader>sf` (floating), `<leader>sr` (run command), `<leader>ss` (send selection)
 - tmux-navigator for seamless tmux/nvim navigation
+
+### Code Execution (code-runner + toggleterm)
+- `<leader>rc` - Run current file (opens toggleterm at bottom)
+- `<leader>rcc` - Run C++ file (single file only, ignores other files)
+- `<leader>rp` - Run entire project (smart build detection)
+- `<leader>rs` - Toggle terminal on/off
+
+**Supported Languages with Smart Detection:**
+- **Java**: Detects Maven (mvn clean compile exec:java) or Gradle (gradle run), falls back to javac/java for standalone files
+- **Go**: Uses `go run` command for files, `go build && ./bin/app` for projects with go.mod
+- **Elixir**: Detects Mix projects (mix run) or runs standalone .exs scripts, detects Phoenix apps and runs with iex
+- **C/C++**:
+  - `<leader>rc` (smart): Detects CMake, Makefile, multi-file projects, or standalone
+  - `<leader>rcc` (direct): Always compiles ONLY current file with clang++
+  - CMakeLists.txt: Uses cmake build system
+  - Makefile: Uses make build system
+  - Multiple .cpp files: Auto-compiles all .cpp files together
+  - Single .cpp file: Compiles with clang++ to ./build/
+- **Python**: Runs with python3
+- **Rust**: Compiles and runs with rustc
+
+**Terminal Features:**
+- All output appears in **toggleterm** (horizontal split at bottom, 20 lines)
+- Exit terminal: `<Esc>` or `jk` (in terminal mode)
+- Navigate from terminal: `<Ctrl-h/j/k/l>` to switch windows
+- Full shell history available (use `↑` and `↓` to browse previous commands, `Ctrl-R` to search)
+- Persistent history between sessions
+- Multi-terminal support (run `:1ToggleTerm`, `:2ToggleTerm` for separate terminals)

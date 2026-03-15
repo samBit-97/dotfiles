@@ -2,15 +2,15 @@ font-family = BerkeleyMono Nerd Font
 #font-family = Iosevka Nerd Font
 # font-family = SFMono Nerd Font 
 font-size = 16.6
-theme = NordFox
+theme = Gruvbox Material Dark
 # theme = Nord
 shell-integration-features = no-cursor,sudo,no-title
 cursor-style = block
 # cursor-invert-fg-bg
 cursor-color = "#ffffff"
 adjust-cell-height = 35%
-# background-opacity = 0.85
-# background-blur = true
+background-opacity = 0.85
+background-blur = true
 
 mouse-hide-while-typing = true
 mouse-scroll-multiplier = 2
