@@ -1,5 +1,6 @@
 return {
 	"mfussenegger/nvim-dap",
+	keys = { "<Leader>dt", "<Leader>dT", "<Leader>dc", "<Leader>dx", "<F1>", "<F2>", "<F3>", "<F4>" },
 	dependencies = {
 		"rcarriga/nvim-dap-ui",
 		"leoluz/nvim-dap-go",

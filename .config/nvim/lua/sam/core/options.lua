@@ -47,4 +47,7 @@ opt.swapfile = false
 vim.opt.conceallevel = 2
 vim.opt.concealcursor = "nc"
 
+-- Persistent undo
+vim.opt.undofile = true
+
 -- vim.opt.winbar = "%=%f"

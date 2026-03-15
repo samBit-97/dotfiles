@@ -57,13 +57,6 @@ vim.keymap.set("n", "k", "kzz", { noremap = true, silent = true, desc = "Move up
 vim.keymap.set("n", "G", "Gzz", { noremap = true, silent = true, desc = "Go to end of file (centered)" })
 vim.keymap.set("n", "gg", "ggzz", { noremap = true, silent = true, desc = "Go to beginning of file (centered)" })
 
-function _G.set_terminal_keymaps()
-	local opts = { buffer = 0, desc = "Exit terminal mode" }
-	keymap.set("t", "<esc>", [[<C-\><C-n>]], opts)
-end
-
--- if you only want these mappings for toggle term use term://*toggleterm#* instead
-vim.cmd("autocmd! TermOpen term://*toggleterm#* lua set_terminal_keymaps()")
 
 vim.keymap.set("n", "<leader>ih", function()
 	local bufnr = vim.api.nvim_get_current_buf() -- Get the current buffer number
@@ -75,54 +68,15 @@ vim.keymap.set("n", "<leader>ih", function()
 	print(is_enabled and "Inlay hints disabled" or "Inlay hints enabled")
 end, { desc = "Toggle Inlay Hints" })
 
--- Run the nearest test (Go or Java)
-vim.keymap.set("n", "<leader>tm", function()
-	require("neotest").run.run()
-end, { desc = "Run nearest test " })
-
--- Run all tests in the current file
-vim.keymap.set("n", "<leader>tf", function()
-	require("neotest").run.run(vim.fn.expand("%"))
-end, { desc = "Run all tests in file " })
-
--- Run the entire test suite
-vim.keymap.set("n", "<leader>ta", function()
-	require("neotest").run.run(vim.fn.getcwd())
-end, { desc = "Run entire test suite " })
-
--- Show the test summary panel
-vim.keymap.set("n", "<leader>tsum", function()
-	require("neotest").summary.toggle()
-end, { desc = "Toggle test summary" })
-
--- -- Show test output in a floating window
--- vim.keymap.set("n", "<leader>to", function()
--- 	require("neotest").output.open({ enter = true })
--- end, { desc = "Show test output" })
-
--- Watch file and rerun tests on save
-vim.keymap.set("n", "<leader>tw", function()
-	require("neotest").watch.watch()
-end, { desc = "Watch test file for changes" })
-
--- keymap.set("n", "<leader>tc", function()
--- 	if vim.bo.filetype == "python" then
--- 		require("dap-python").test_class()
--- 	end
--- end)
---
--- keymap.set("n", "<leader>tm", function()
--- 	if vim.bo.filetype == "python" then
--- 		require("dap-python").test_method()
--- 	end
--- end)
---
 -- Obsidian actions
 vim.keymap.set("n", "<leader>on", "<cmd>ObsidianNew<CR>", { desc = "New coding note" })
 vim.keymap.set("n", "<leader>os", "<cmd>ObsidianSearch<CR>", { desc = "Search coding notes" })
 vim.keymap.set("n", "<leader>oq", "<cmd>ObsidianQuickSwitch<CR>", { desc = "Quick switch notes" })
 vim.keymap.set("n", "<leader>of", "<cmd>ObsidianFollowLink<CR>", { desc = "Follow link" })
 vim.keymap.set("n", "<leader>ob", "<cmd>ObsidianBacklinks<CR>", { desc = "Show backlinks" })
+
+-- Toggle line wrap
+keymap.set("n", "<leader>w", "<cmd>set wrap!<CR>", { desc = "Toggle wrap" })
 
 -- Docker Telescope picker
 vim.keymap.set("n", "<leader>fD", function()

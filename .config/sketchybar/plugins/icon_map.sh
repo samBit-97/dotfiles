@@ -476,6 +476,12 @@ function icon_map() {
   "WezTerm")
     icon_result=":wezterm:"
     ;;
+  "ChatGPT" | "ChatGPT Atlas")
+    icon_result="🤖"
+    ;;
+  "Claude")
+    icon_result="🤖"
+    ;;
   *)
     icon_result=":default:"
     ;;

@@ -1,6 +1,8 @@
 return {
 	"CRAG666/code_runner.nvim",
 	dependencies = "nvim-lua/plenary.nvim",
+	cmd = { "RunCode", "RunFile", "RunProject", "RunClose" },
+	keys = { "<leader>rc", "<leader>rcc", "<leader>rp" },
 	config = function()
 		local code_runner = require("code_runner")
 
@@ -177,7 +179,7 @@ return {
 		end
 
 		code_runner.setup({
-			mode = "toggleterm",
+			mode = "term",
 			focus = true,
 			startinsert = true,
 			term = {
@@ -231,7 +233,6 @@ return {
 			end
 		end, { desc = "Run Project (smart detection)" })
 
-		-- Toggle terminal
-		vim.keymap.set("n", "<leader>rs", ":ToggleTerm<CR>", { desc = "Toggle Terminal" })
+
 	end,
 }

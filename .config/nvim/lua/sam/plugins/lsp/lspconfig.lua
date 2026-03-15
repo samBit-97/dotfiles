@@ -163,14 +163,70 @@ return {
 				})
 			end,
 			["pyright"] = function()
+				-- Function to find Python venv
+				local function get_python_path(workspace)
+					-- Check for common venv locations
+					local venv_paths = {
+						workspace .. "/venv/bin/python",
+						workspace .. "/.venv/bin/python",
+						workspace .. "/env/bin/python",
+						workspace .. "/.env/bin/python",
+					}
+
+					for _, path in ipairs(venv_paths) do
+						if vim.fn.filereadable(path) == 1 then
+							return path
+						end
+					end
+
+					-- Fallback to system python
+					return vim.fn.exepath("python3") or vim.fn.exepath("python") or "python"
+				end
+
+				-- Function to detect venv directory name
+				local function get_venv_name(workspace)
+					local venv_dirs = { "venv", ".venv", "env", ".env" }
+					for _, dir in ipairs(venv_dirs) do
+						local venv_path = workspace .. "/" .. dir
+						if vim.fn.isdirectory(venv_path) == 1 then
+							return dir
+						end
+					end
+					return nil
+				end
+
 				lspconfig["pyright"].setup({
 					capabilities = capabilities,
+					root_dir = function(fname)
+						return lspconfig.util.root_pattern("pyrightconfig.json", "pyproject.toml", "setup.py", ".git")(fname)
+							or vim.fn.getcwd()
+					end,
+					on_new_config = function(new_config, new_root_dir)
+						-- Dynamically set python path based on project root
+						local python_path = get_python_path(new_root_dir)
+						local venv_name = get_venv_name(new_root_dir)
+
+						-- Update settings with detected python path
+						new_config.settings.python.pythonPath = python_path
+
+						-- If venv detected, configure venvPath
+						if venv_name then
+							new_config.settings.python.venvPath = new_root_dir
+							new_config.settings.python.venv = venv_name
+						end
+					end,
 					settings = {
 						python = {
+							pythonPath = vim.fn.exepath("python3") or "python",
+							venvPath = ".",
+							venv = "venv",
 							analysis = {
 								typeCheckingMode = "basic",
 								autoSearchPaths = true,
 								useLibraryCodeForTypes = true,
+								diagnosticMode = "workspace",
+								autoImportCompletions = true,
+								stubPath = "",
 							},
 						},
 					},
@@ -238,15 +294,6 @@ return {
 						end
 					end,
 				})
-			end,
-		})
-		vim.api.nvim_create_autocmd("LspAttach", {
-			group = vim.api.nvim_create_augroup("InlayHints", {}),
-			callback = function(args)
-				local client = vim.lsp.get_client_by_id(args.data.client_id)
-				if client.server_capabilities.inlayHintProvider then
-					vim.lsp.inlay_hint.enable(false) -- Use the enable function
-				end
 			end,
 		})
 	end,

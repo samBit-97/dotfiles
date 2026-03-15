@@ -2,11 +2,11 @@ format = """
 $directory $kubernetes $git_branch$git_status $aws $jobs $cmd_duration$line_break$character"""
 
 add_newline = true
-palette = 'nord'
+palette = 'gruvbox'
 
 [directory]
 style = 'bold fg:dark_blue'
-format = '[$path]($style)'
+format = '[→](fg:yellow) [$path]($style)'
 truncation_length = 3
 truncation_symbol = '…/'
 truncate_to_repo = false
@@ -60,7 +60,7 @@ symbol = '󰏗'
 [aws]
 symbol = ' '
 style = 'yellow'
-format = '[$symbol$profile$duration]($style)'
+format = '([$symbol$profile$duration]($style))'
 
 [kubernetes]
 style = 'purple'
@@ -103,3 +103,16 @@ yellow = '#e5c07b'
 gray = '#828997'
 white = '#abb2bf'
 black = '#2c323c'
+
+[palettes.gruvbox]
+dark_blue = '#458588'
+blue = '#83a598'
+teal = '#8ec07c'
+red = '#fb4934'
+orange = '#fe8019'
+green = '#b8bb26'
+yellow = '#fabd2f'
+purple = '#d3869b'
+gray = '#928374'
+black = '#282828'
+white = '#fbf1c7'
