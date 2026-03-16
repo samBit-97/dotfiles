@@ -21,7 +21,6 @@ return {
 				lua = { "stylua" },
 				python = { "isort", "black" },
 				go = { "gofmt" },
-				xml = { "xmlformatter" },
 				java = { "google-java-format" },
 				terraform = { "terraform_fmt" },
 				tf = { "terraform_fmt" },
@@ -44,11 +43,11 @@ return {
 					stdin = true,
 				},
 			},
-			format_on_save = {
-				lsp_fallback = true,
-				async = false,
-				timeout_ms = 1000,
-			},
+			format_on_save = function(bufnr)
+				-- Skip XML: lemminx LSP reformats aggressively on save
+				if vim.bo[bufnr].filetype == "xml" then return end
+				return { lsp_fallback = true, async = false, timeout_ms = 1000 }
+			end,
 		})
 
 		-- Ensure Java files follow Google Java Format style for tabs and new lines

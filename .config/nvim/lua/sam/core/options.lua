@@ -43,9 +43,22 @@ opt.splitbelow = true -- split horizontal window to the bottom
 -- turn off swapfile
 opt.swapfile = false
 
--- Conceal for prettier markdown
-vim.opt.conceallevel = 2
-vim.opt.concealcursor = "nc"
+-- Conceal only for markdown (not JSON or other filetypes)
+vim.opt.conceallevel = 0
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = { "markdown", "obsidian" },
+	callback = function()
+		vim.opt_local.conceallevel = 2
+		vim.opt_local.concealcursor = "nc"
+	end,
+})
+
+-- Folding (treesitter-based)
+vim.opt.foldmethod = "expr"
+vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+vim.opt.foldlevel = 99        -- start with all folds open
+vim.opt.foldlevelstart = 99   -- open all folds when opening a file
+vim.opt.foldenable = true
 
 -- Persistent undo
 vim.opt.undofile = true

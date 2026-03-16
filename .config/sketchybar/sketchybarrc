@@ -106,6 +106,11 @@ source "$ITEM_DIR/front_app.sh"
 # customize it to your liking
 source "$ITEM_DIR/calendar.sh"
 
+sketchybar --add item sep0 right \
+           --set sep0 icon="|" icon.font="$FONT:Bold:16.0" \
+                      icon.color=$GREY label.drawing=off \
+                      background.drawing=off padding_left=4 padding_right=4
+
 # Runs "brew outdated" command and shows you amount of outdated packages
 # Will install an old package so you can see the number increase
 # `brew install ~/Downloads/wezterm.rb`
@@ -120,19 +125,16 @@ source "$ITEM_DIR/calendar.sh"
 # `gh api notifications` shows nothing but `gh status` does
 # source "$ITEM_DIR/github.sh"
 
-# Shows the SSID you're connected to, and the IP address assigned
-# source "$ITEM_DIR/wifi.sh"
+# Upload and download speed
+source "$ITEM_DIR/network.sh"
 
-# By default the icon will only show when on battery and if it's 50% or less,
-# you can change "plugins/battery.sh" if needed to modify the behavior
-source "$ITEM_DIR/battery.sh"
+sketchybar --add item sep1 right \
+           --set sep1 icon="|" icon.font="$FONT:Bold:16.0" \
+                      icon.color=$GREY label.drawing=off \
+                      background.drawing=off padding_left=4 padding_right=4
 
-# left click to change volume
-# right click to switch audio sources, you need switchaudio-osx
-source "$ITEM_DIR/volume.sh"
-
-# CPU usage indicator
-# source "$ITEM_DIR/cpu.sh"
+# CPU usage indicator (simple percentage, no helper required)
+source "$ITEM_DIR/cpu_simple.sh"
 
 ###############################################################################
 #                            Community plugins
