@@ -2,7 +2,7 @@
 
 source "$CONFIG_DIR/colors.sh"
 
-CPU=$(top -l 1 -s 0 | awk '/CPU usage/ {print int($3) + int($5)}')
+CPU=$(top -l 2 -s 1 | awk '/CPU usage/ {print int($3) + int($5)}' | tail -1)
 
 if [ "$CPU" -ge 80 ]; then
   COLOR=$RED

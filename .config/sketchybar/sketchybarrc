@@ -27,7 +27,7 @@ launchctl unload -F /System/Library/LaunchAgents/com.apple.OSDUIHelper.plist >/d
 
 # Setting up the general bar appearance of the bar
 bar=(
-	height=45
+	height=34
 	color=$BAR_COLOR
 	border_width=0
 	shadow=off
@@ -92,8 +92,8 @@ source "$ITEM_DIR/front_app.sh"
 #                                 Center
 ###############################################################################
 
-# Shows album art and song name, I prefer this as it give me useful info
-# source "$ITEM_DIR/media.sh"
+# Shows album art and song name
+source "$ITEM_DIR/media.sh"
 
 # Shows floating window when spotify is playing a song
 # source "$ITEM_DIR/spotify.sh"
@@ -111,6 +111,13 @@ sketchybar --add item sep0 right \
                       icon.color=$GREY label.drawing=off \
                       background.drawing=off padding_left=4 padding_right=4
 
+source "$ITEM_DIR/battery.sh"
+
+sketchybar --add item sep4 right \
+           --set sep4 icon="|" icon.font="$FONT:Bold:16.0" \
+                      icon.color=$GREY label.drawing=off \
+                      background.drawing=off padding_left=4 padding_right=4
+
 # Runs "brew outdated" command and shows you amount of outdated packages
 # Will install an old package so you can see the number increase
 # `brew install ~/Downloads/wezterm.rb`
@@ -125,6 +132,9 @@ sketchybar --add item sep0 right \
 # `gh api notifications` shows nothing but `gh status` does
 # source "$ITEM_DIR/github.sh"
 
+# Wifi icon (click to expand SSID)
+source "$ITEM_DIR/wifi.sh"
+
 # Upload and download speed
 source "$ITEM_DIR/network.sh"
 
@@ -133,8 +143,17 @@ sketchybar --add item sep1 right \
                       icon.color=$GREY label.drawing=off \
                       background.drawing=off padding_left=4 padding_right=4
 
+# Memory usage
+source "$ITEM_DIR/memory.sh"
+
+sketchybar --add item sep2 right \
+           --set sep2 icon="|" icon.font="$FONT:Bold:16.0" \
+                      icon.color=$GREY label.drawing=off \
+                      background.drawing=off padding_left=4 padding_right=4
+
 # CPU usage indicator (simple percentage, no helper required)
 source "$ITEM_DIR/cpu_simple.sh"
+
 
 ###############################################################################
 #                            Community plugins

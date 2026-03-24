@@ -1,3 +1,14 @@
+# Zsh completion system — recompile dump only once per day
+autoload -Uz compinit
+if [[ -z "$ZSH_COMPDUMP" ]]; then
+  ZSH_COMPDUMP="${ZDOTDIR:-$HOME}/.zcompdump"
+fi
+if [[ "$ZSH_COMPDUMP"(#qNmh-24) ]]; then
+  compinit -C -d "$ZSH_COMPDUMP"
+else
+  compinit -d "$ZSH_COMPDUMP"
+fi
+
 # ---- starship ----
 export STARSHIP_CONFIG="$HOME/.config/starship/starship.toml"
 eval "$(starship init zsh)"  # Replace 'zsh' with your shell if different
@@ -25,9 +36,6 @@ _fzf_compgen_dir() {
 
 source ~/fzf-git.sh/fzf-git.sh
 
-# ---- Eza (better ls) -----
-alias ls="eza --color=always --long --git --no-filesize --icons=always --no-time --no-user --no-permissions"
-
 show_file_or_dir_preview="if [ -d {} ]; then eza --tree --color=always {} | head -200; else bat -n --color=always --line-range :500 {}; fi"
 
 export FZF_CTRL_T_OPTS="--preview '$show_file_or_dir_preview'"
@@ -48,11 +56,22 @@ _fzf_comprun() {
   esac
 }
 
+# ---- Television (tv) ----
+eval "$(tv init zsh)"
+
 # ---- Zoxide (better cd) ----
 eval "$(zoxide init zsh)"
 
-alias cd="z"
+alias f="z"
 alias cat="bat"
+v() {
+  local count=$(pgrep -c nvim 2>/dev/null || echo 0)
+  if (( count >= 5 )); then
+    echo "\033[33m⚠ $count nvim instances running. Consider closing some first.\033[0m"
+    echo "  Run: nvm-mem"
+  fi
+  nvim "$@"
+}
 
 # ---- Autosuggestions and syntax highlighting ----
 source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
@@ -85,37 +104,53 @@ sesh_menu_with_icons() {
       --bind 'ctrl-d:execute(tmux kill-session -t {2..})+change-prompt(⚡  )+reload(sesh list --icons)'
   )"
 }
-alias menu="sesh_menu_with_icons"
 
-# export PATH="$SDKMAN_DIR/candidates/java/current/bin:$PATH"
-# export PATH="$PATH:$(go env GOPATH)/bin"
+# Aliases 
+alias menu="sesh_menu_with_icons"
+alias ld="lazydocker"
+alias lg="lazygit"
+alias gd="gh dash"
+alias k="kubectl"
+alias nvm-mem="ps aux | grep nvim | grep -v grep | awk '{sum+=\$6} END {printf \"Neovim total: %.0f MB (%d instances)\\n\", sum/1024, NR}'"
+alias awslocal='aws --endpoint-url=http://localhost:4566'
+# Alias to run java from terminal
+jcompile() {
+    mkdir -p bin
+    javac -d bin $(find . -name "*.java") || return 1
+}
+# ---- Eza (better ls) -----
+alias ls="eza --color=always --long --git --no-filesize --icons=always --no-time --no-user --no-permissions"
+alias ll='eza --color=always --long --git --icons=always'
 
 # SDKMAN Initialization
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$SDKMAN_DIR/bin/sdkman-init.sh" ]] && source "$SDKMAN_DIR/bin/sdkman-init.sh"
 
-# if [[ -z "$TMUX" ]]; then
-#   neofetch
-# fi
-
 . "$HOME/.local/bin/env"
 
-alias ld="lazydocker"
-alias lg="lazygit"
-alias k="kubectl"
-# export DOCKER_HOST="unix://$HOME/.docker/run/docker.sock"
-
-# kubectl autocomplete
-source <(kubectl completion zsh)
-
-### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
-export PATH="/Users/sambitbehera/.rd/bin:$PATH"
-### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
+# kubectl autocomplete — lazy-loaded (saves ~250ms startup)
+if (( $+commands[kubectl] )); then
+  function kubectl() {
+    unfunction kubectl
+    source <(command kubectl completion zsh)
+    command kubectl "$@"
+  }
+fi
 
 # Default editor
 export EDITOR="nvim"
 
-### Symlink docker.sock if it doesn't exist(Rancher Desktop)
-if [ ! -S /var/run/docker.sock ] && [ -S "$HOME/.rd/docker.sock" ]; then
-  sudo ln -sf "$HOME/.rd/docker.sock" /var/run/docker.sock
+# Neovim theme
+export NVIM_THEME="gruvbox"
+
+### Secrets (API keys, tokens — not tracked in git)
+[ -f ~/.secrets ] && source ~/.secrets
+
+# Cache go env GOPATH (saves ~30ms vs running go env every shell)
+if [[ -z "$GOPATH" ]]; then
+  export GOPATH="${HOME}/go"
 fi
+export PATH="$PATH:${GOPATH}/bin"
+
+# Added by Antigravity
+export PATH="/Users/sambitbehera/.antigravity/antigravity/bin:$PATH"

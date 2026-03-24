@@ -1,82 +1,66 @@
-format = """
-$directory $kubernetes $git_branch$git_status $aws $jobs $cmd_duration$line_break$character"""
+format = """$directory$git_branch$git_status$aws$jobs$cmd_duration$line_break$character"""
 
 add_newline = true
 palette = 'gruvbox'
 
 [directory]
-style = 'bold fg:dark_blue'
-format = '[→](fg:yellow) [$path]($style)'
-truncation_length = 3
-truncation_symbol = '…/'
-truncate_to_repo = false
+style = 'bold fg:blue'
+format = '[→ $path]($style)[$read_only]($read_only_style) '
+truncation_length = 1
+read_only = ' 󰌾'
 
 [git_branch]
 style = 'fg:green'
-symbol = ' '
-format = '[$symbol$branch]($style)'
+symbol = ' '
+format = '[$symbol  $branch(:$remote_branch)]($style)'
 
 [git_status]
-style = 'fg:green'
-format = '([$all_status$ahead_behind]($style))'
+style = 'fg:yellow'
+format = '( [$all_status$ahead_behind]($style))'
 
-[java]
-style = 'red'
-symbol = ''
-
-[python]
-style = 'teal'
-symbol = ''
-format = '[$symbol$pyenv_prefix($version )(\($virtualenv\))]($style)'
-pyenv_version_name = true
-pyenv_prefix = ''
-
-[lua]
-symbol = ''
-
-[nodejs]
-style = 'blue'
-symbol = ''
-
-[golang]
-style = 'blue'
-symbol = ''
-
-[haskell]
-style = 'blue'
-symbol = ''
-
-[rust]
-style = 'orange'
-symbol = ''
-
-[ruby]
-style = 'blue'
-symbol = ''
-
-[package]
-symbol = '󰏗'
 
 [aws]
-symbol = ' '
-style = 'yellow'
-format = '([$symbol$profile$duration]($style))'
+symbol = ' '
+style = 'fg:orange'
+format = '[$symbol$profile]($style) '
 
 [kubernetes]
-style = 'purple'
-format = '[$symbol$context(\($namespace\))]($style)'
-disabled = false
+disabled = true
 
 [jobs]
-symbol = ''
-style = 'red'
+symbol = ''
+style = 'fg:red'
 number_threshold = 1
-format = '[$symbol]($style)'
+format = '[$symbol]($style) '
 
 [cmd_duration]
-min_time = 500
+min_time = 2000
 style = 'fg:gray'
-format = '[$duration]($style)'
+format = '[$duration]($style) '
+
+[character]
+success_symbol = '[❯](fg:green)'
+error_symbol = '[❯](fg:red)'
+
+# Disable unused modules
+[java]
+disabled = true
+[python]
+disabled = true
+[lua]
+disabled = true
+[nodejs]
+disabled = true
+[golang]
+disabled = true
+[haskell]
+disabled = true
+[rust]
+disabled = true
+[ruby]
+disabled = true
+[package]
+disabled = true
 
 [palettes.nord]
 dark_blue = '#5E81AC'
@@ -116,3 +100,16 @@ purple = '#d3869b'
 gray = '#928374'
 black = '#282828'
 white = '#fbf1c7'
+
+[palettes.catppuccin]
+dark_blue = '#89b4fa'
+blue = '#74c7ec'
+teal = '#94e2d5'
+red = '#f38ba8'
+orange = '#fab387'
+green = '#a6e3a1'
+yellow = '#f9e2af'
+purple = '#cba6f7'
+gray = '#6c7086'
+black = '#1e1e2e'
+white = '#cdd6f4'

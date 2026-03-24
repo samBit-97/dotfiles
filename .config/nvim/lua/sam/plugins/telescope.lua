@@ -163,6 +163,13 @@ return {
 		keymap.set("n", "<leader>fgb", "<cmd>Telescope git_branches<cr>", { desc = "Find git branches" })
 		keymap.set("n", "<leader>fgs", "<cmd>Telescope git_status<cr>", { desc = "Find git status" })
 
+		-- Quick edit .zshrc: opens in new tmux window, sources on save, returns
+		keymap.set("n", "<leader>f.", function()
+			vim.fn.system([[
+				tmux new-window -n 'zshrc' 'nvim -c "autocmd BufWritePost <buffer> silent !source ~/.zshrc" ~/dotfiles/.zshrc'
+			]])
+		end, { desc = "Edit .zshrc (tmux window, auto-source)" })
+
 		-- Other useful pickers
 		keymap.set("n", "<leader>fh", "<cmd>Telescope help_tags<cr>", { desc = "Find help tags" })
 		keymap.set("n", "<leader>fk", "<cmd>Telescope keymaps<cr>", { desc = "Find keymaps" })
