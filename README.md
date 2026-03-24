@@ -1,49 +1,90 @@
-# Dotfiles Repository
+# Dotfiles
 
-This repository contains configuration files for various tools and applications. The dotfiles are organized for easy management using [GNU Stow](https://www.gnu.org/software/stow/), a symlink farm manager, to simplify symlink creation and maintenance.
+macOS terminal setup — Gruvbox Material Dark everywhere.
 
-## 📁 File Structure
+## Stack
 
-```plaintext
-.
+| Tool | Purpose | Config |
+|------|---------|--------|
+| [Ghostty](https://ghostty.org) | Terminal emulator | `.config/ghostty/` |
+| Zsh | Shell (no framework) | `.zshrc` |
+| [Starship](https://starship.rs) | Prompt | `.config/starship/` |
+| [Tmux](https://github.com/tmux/tmux) | Multiplexer | `.tmux.conf` |
+| [Neovim](https://neovim.io) | Editor (Lazy.nvim) | `.config/nvim/` |
+| [Sketchybar](https://github.com/FelixKratz/SketchyBar) | Menu bar | `.config/sketchybar/` |
+| [yabai](https://github.com/koekeishiya/yabai) + [skhd](https://github.com/koekeishiya/skhd) | Tiling WM | `.config/yabai/`, `.config/skhd/` |
+| [Television](https://github.com/alexpasmantier/television) | Fuzzy finder TUI | `.config/television/` |
+| [gh-dash](https://github.com/dlvhdr/gh-dash) | GitHub PR/issue TUI | `.config/gh-dash/` |
+| [fzf](https://github.com/junegunn/fzf) | Fuzzy finder | via `.zshrc` |
+| [diffnav](https://github.com/dlvhdr/diffnav) + [delta](https://github.com/dandavison/delta) | Git pager | via `.gitconfig` |
+
+## Structure
+
+```
+~/dotfiles/
+├── .zshrc
+├── .tmux.conf
+├── Brewfile                     # macOS packages (brew bundle)
+├── packages-fedora.sh           # Fedora equivalent
 ├── .config/
-│   ├── nvim/           # Neovim configuration
-│   ├── ghostty/        # Ghostty terminal emulator configuration
-│   └── starship/       # Starship prompt configuration
-├── zshrc/              # Zsh shell configuration (symlink to ~/.zshrc)
-└── tmux/               # Tmux configuration (symlink to ~/.tmux.conf)
+│   ├── ghostty/                 # terminal emulator
+│   ├── nvim/                    # neovim (Lazy.nvim)
+│   ├── starship/                # prompt
+│   ├── sketchybar/              # menu bar (macOS)
+│   ├── yabai/                   # tiling WM (macOS)
+│   ├── skhd/                    # hotkeys (macOS)
+│   ├── television/              # tv channels + config
+│   └── gh-dash/                 # GitHub dashboard
 ```
 
-## 🚀 Installation
+## Install
 
-To use this repository, follow the steps below:
+### macOS
 
-1. Install GNU Stow
-
-You can install GNU Stow using Homebrew:
-
-```plaintext
+```bash
+# Install Homebrew + stow
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 brew install stow
-```
 
-2. Clone the Repository
-
-Clone the repository to your home directory:
-
-```plaintext
-git clone https://github.com/your-username/dotfiles.git ~/dotfiles
-
+# Clone and symlink
+git clone https://github.com/samBit-97/dotfiles.git ~/dotfiles
 cd ~/dotfiles
+mkdir -p ~/.config
+stow -t ~ .
+
+# Install all packages
+brew bundle install --file=Brewfile
+
+# Post-setup
+nvim --headless "+Lazy! sync" +qa
+touch ~/.secrets && chmod 600 ~/.secrets
 ```
 
-3. Apply the Dotfiles Using Stow
+### Fedora (Linux)
 
-To create symlinks for your configurations, run the following command:
-
-```plaintext
-stow .
+```bash
+sudo dnf install -y git stow
+git clone https://github.com/samBit-97/dotfiles.git ~/dotfiles
+cd ~/dotfiles
+chmod +x packages-fedora.sh && ./packages-fedora.sh
+mkdir -p ~/.config
+stow -t ~ .
 ```
 
-## 💡 Contributing
+## Key Features
 
-Feel free to open issues or submit pull requests for improvements or fixes!
+- **Theme**: Gruvbox Material Dark across all tools (Catppuccin Mocha available as commented blocks)
+- **Zsh**: ~110ms startup, compinit cached, kubectl lazy-loaded, nvim instance guard
+- **Tmux**: Ctrl-A prefix, base-index 1, sesh session picker, vim-tmux-navigator
+- **Sketchybar**: Spotify controls, memory/CPU/battery/wifi indicators, modular architecture
+- **Neovim**: 30+ plugins via Lazy.nvim, transparent background, LSP + DAP + Treesitter
+- **Television**: Custom cable channels for tmux session management via sesh/zoxide
+
+## Stow Commands
+
+| Command | What it does |
+|---------|-------------|
+| `stow -t ~ .` | Create all symlinks |
+| `stow -D -t ~ .` | Remove all symlinks |
+| `stow -R -t ~ .` | Restow (after adding files) |
+| `stow -n -t ~ .` | Dry run |
