@@ -52,8 +52,14 @@ sudo dnf install -y \
 sudo dnf install -y \
   awscli2 \
   helm \
-  terraform \
   httpie
+
+# Terraform (requires HashiCorp repo)
+if ! command -v terraform &>/dev/null; then
+  sudo dnf install -y 'dnf-command(config-manager)' 2>/dev/null
+  sudo dnf config-manager addrepo --from-repofile=https://rpm.releases.hashicorp.com/fedora/hashicorp.repo 2>/dev/null
+  sudo dnf install -y terraform 2>/dev/null || echo "WARN: terraform install failed — add HashiCorp repo manually"
+fi
 
 # Databases (install only if needed)
 # sudo dnf install -y mariadb-server mongodb-mongosh
