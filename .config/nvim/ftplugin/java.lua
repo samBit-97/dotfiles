@@ -9,10 +9,9 @@ local root_dir = require("jdtls.setup").find_root({ ".git" })
 	or require("jdtls.setup").find_root({ ".classpath", ".project" })
 	or require("jdtls.setup").find_root({ "*.iml", ".idea" })
 
--- Exit if no root found
+-- Fallback to file's parent directory for standalone .java files
 if not root_dir then
-	vim.notify("jdtls: No project root found", vim.log.levels.WARN)
-	return
+	root_dir = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":p:h")
 end
 
 -- Use root_dir for workspace and .m2 checks
