@@ -1,0 +1,241 @@
+" ============================================================================
+" .ideavimrc — IdeaVim configuration mirroring ~/dotfiles/.config/nvim
+" Leader is <Space>, matching Neovim.
+" IDE-backed mappings use :action <IdeActionId>.
+" Reload without restart: :source ~/.ideavimrc
+" ============================================================================
+
+" ---------- Leader ----------------------------------------------------------
+let mapleader = " "
+
+" ---------- Options (mirrors core/options.lua where IdeaVim supports it) ----
+set number
+set relativenumber
+set showmode
+set cursorline
+set ignorecase
+set smartcase
+set clipboard+=unnamedplus
+set incsearch
+set hlsearch
+set scrolloff=8
+set sidescrolloff=8
+set history=1000
+
+" tabs & indentation
+set tabstop=2
+set shiftwidth=2
+set expandtab
+set autoindent
+
+" splits
+set splitright
+set splitbelow
+
+" ---------- IdeaVim plugins (emulate nvim plugins) --------------------------
+set surround         " tpope/vim-surround
+set commentary       " tpope/vim-commentary (gcc, gc)
+set ReplaceWithRegister  " gr{motion}/grr to replace with register
+set argtextobj       " ia / aa for function arguments
+set textobj-entire   " ie / ae for entire buffer
+set textobj-indent   " ii / ai for indent blocks
+set exchange         " cx{motion}, cxx, X (visual) to exchange
+set matchit
+set highlightedyank
+set NERDTree         " IdeaVim's NERDTree emulation over the Project tool window
+
+" Which-key style popup for leader mappings
+set which-key
+set notimeout
+set timeoutlen=5000
+
+" ---------- General keymaps (core/keymaps.lua) ------------------------------
+" Exit insert mode with jk
+inoremap jk <Esc>
+
+" Clear search highlights
+nnoremap <leader>nh :nohlsearch<CR>
+
+" Increment / decrement numbers
+nnoremap <leader>+ <C-a>
+nnoremap <leader>- <C-x>
+vnoremap <leader>+ g<C-a>
+vnoremap <leader>- g<C-x>
+
+" ---------- Window management -----------------------------------------------
+" Mirrors <leader>s{v,h,e,x,H,J,K,L,m}
+nnoremap <leader>sv :action SplitVertically<CR>
+nnoremap <leader>sh :action SplitHorizontally<CR>
+nnoremap <leader>se :action UnsplitAll<CR>
+nnoremap <leader>sx :action Unsplit<CR>
+nnoremap <leader>sm :action MaximizeEditorInSplit<CR>
+
+" Split navigation (IntelliJ-aware)
+nnoremap <C-h> :action PrevSplitter<CR>
+nnoremap <C-l> :action NextSplitter<CR>
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+
+" Split resize (IDE has no fine-grained resize; best-effort stretch)
+nnoremap <leader>sH :action StretchSplitToLeft<CR>
+nnoremap <leader>sL :action StretchSplitToRight<CR>
+nnoremap <leader>sK :action StretchSplitToTop<CR>
+nnoremap <leader>sJ :action StretchSplitToBottom<CR>
+
+" ---------- Tab / editor-tab management (<leader>T*) ------------------------
+nnoremap <leader>To :action NewElementSameAction<CR>
+nnoremap <leader>Tx :action CloseContent<CR>
+nnoremap <leader>Tn :action NextTab<CR>
+nnoremap <leader>Tp :action PreviousTab<CR>
+
+" ---------- Centered movements (mirrors j/k/G/gg/{/}/(/)/C-d/C-u) -----------
+nnoremap } }zz
+nnoremap { {zz
+nnoremap ) )zz
+nnoremap ( (zz
+nnoremap <C-d> <C-d>zz
+nnoremap <C-u> <C-u>zz
+nnoremap <C-f> <C-f>zz
+nnoremap <C-b> <C-b>zz
+nnoremap j jzz
+nnoremap k kzz
+nnoremap G Gzz
+nnoremap gg ggzz
+nnoremap n nzzzv
+nnoremap N Nzzzv
+
+" ---------- Toggle line wrap ------------------------------------------------
+nnoremap <leader>w :set wrap!<CR>
+
+" ---------- File explorer / Project view (<leader>e*) -----------------------
+" neo-tree analogues -> IntelliJ Project tool window
+nnoremap <leader>ee :action ActivateProjectToolWindow<CR>
+nnoremap <leader>ef :NERDTreeFind<CR>
+nnoremap <leader>eo :NERDTreeFocus<CR>
+nnoremap <leader>er :NERDTreeRefreshRoot<CR>
+
+" ---------- Telescope / finders (<leader>f*) --------------------------------
+nnoremap <leader>ff :action GotoFile<CR>
+nnoremap <leader>fr :action RecentFiles<CR>
+nnoremap <leader>fb :action Switcher<CR>
+nnoremap <leader>fs :action FindInPath<CR>
+nnoremap <leader>fc :action FindWordAtCaret<CR>
+nnoremap <leader>ft :action ActivateTODOToolWindow<CR>
+nnoremap <leader>fd :action FileStructurePopup<CR>
+nnoremap <leader>fw :action GotoSymbol<CR>
+nnoremap <leader>fh :action HelpTopics<CR>
+nnoremap <leader>fk :action GotoAction<CR>
+nnoremap <leader>fC :action GotoAction<CR>
+nnoremap <leader>fS :action LoadConfiguration<CR>
+nnoremap <leader>f. :action GotoFile<CR>
+
+" Git pickers (telescope git_* analogues)
+nnoremap <leader>fgc :action Vcs.Show.Log<CR>
+nnoremap <leader>fgb :action Git.Branches<CR>
+nnoremap <leader>fgs :action ChangesView.ToggleCommitUi<CR>
+
+" ---------- LSP-style navigation (gd/gD/gi/gt/gR/grr/K) ---------------------
+nmap gd <Action>(GotoDeclaration)
+nmap gD <Action>(GotoTypeDeclaration)
+nmap gi <Action>(GotoImplementation)
+nmap gt <Action>(GotoTypeDeclaration)
+nmap gR <Action>(FindUsages)
+nmap grr <Action>(ShowUsages)
+nmap K  <Action>(QuickJavaDoc)
+
+" Diagnostics navigation
+nnoremap ]d :action GotoNextError<CR>
+nnoremap [d :action GotoPreviousError<CR>
+nnoremap <leader>d  :action ShowErrorDescription<CR>
+nnoremap <leader>D  :action ActivateProblemsViewToolWindow<CR>
+
+" Code actions, rename, LSP restart
+nnoremap <leader>ca :action ShowIntentionActions<CR>
+vnoremap <leader>ca :action ShowIntentionActions<CR>
+nnoremap <leader>rn :action RenameElement<CR>
+nnoremap <leader>rs :action Rerun<CR>
+
+" Toggle inlay hints
+nnoremap <leader>ih :action ToggleInlayHintsGloballyAction<CR>
+
+" ---------- Formatting (<leader>mp) ----------------------------------------
+nnoremap <leader>mp :action ReformatCode<CR>
+vnoremap <leader>mp :action ReformatCode<CR>
+
+" ---------- Git: gitsigns (<leader>h*) + diffview (<leader>g*) + lazygit ---
+" Hunks
+nnoremap <leader>hs :action Git.Add<CR>
+nnoremap <leader>hr :action Vcs.RollbackChangedLines<CR>
+nnoremap <leader>hS :action ChangesView.AddUnversioned<CR>
+nnoremap <leader>hR :action Vcs.Rollback<CR>
+nnoremap <leader>hp :action VcsShowCurrentChangeMarker<CR>
+nnoremap <leader>hb :action Annotate<CR>
+nnoremap <leader>hB :action Annotate<CR>
+nnoremap <leader>hd :action Compare.LastVersion<CR>
+nnoremap <leader>hD :action Compare.Selected<CR>
+nnoremap ]h        :action VcsShowNextChangeMarker<CR>
+nnoremap [h        :action VcsShowPrevChangeMarker<CR>
+
+" Diffview-like
+nnoremap <leader>gd :action Compare.LastVersion<CR>
+nnoremap <leader>gh :action Vcs.ShowTabbedFileHistory<CR>
+nnoremap <leader>gH :action Vcs.Show.Log<CR>
+nnoremap <leader>gq :action CloseContent<CR>
+
+" LazyGit -> open Git tool window
+nnoremap <leader>lg :action ActivateVersionControlToolWindow<CR>
+
+" ---------- Trouble (<leader>x*) -> Problems / TODO tool windows ------------
+nnoremap <leader>xw :action ActivateProblemsViewToolWindow<CR>
+nnoremap <leader>xd :action ActivateProblemsViewToolWindow<CR>
+nnoremap <leader>xq :action ActivateProblemsViewToolWindow<CR>
+nnoremap <leader>xl :action ActivateProblemsViewToolWindow<CR>
+nnoremap <leader>xt :action ActivateTODOToolWindow<CR>
+
+" ---------- Testing (neotest analogues, <leader>t*) -------------------------
+nnoremap <leader>tt :action RunClass<CR>
+nnoremap <leader>tf :action RunClass<CR>
+nnoremap <leader>tn :action RunFocusedTest<CR>
+nnoremap <leader>tl :action Rerun<CR>
+nnoremap <leader>ts :action ActivateRunToolWindow<CR>
+nnoremap <leader>to :action ActivateRunToolWindow<CR>
+
+" ---------- Debugging (DAP analogues, <leader>d*) ---------------------------
+" Note: <leader>d is diagnostics (LSP). Debug uses <leader>D* block below.
+nnoremap <leader>Db :action ToggleLineBreakpoint<CR>
+nnoremap <leader>Dc :action Debug<CR>
+nnoremap <leader>Di :action StepInto<CR>
+nnoremap <leader>Do :action StepOver<CR>
+nnoremap <leader>DO :action StepOut<CR>
+nnoremap <leader>Dt :action Stop<CR>
+nnoremap <leader>Dr :action Resume<CR>
+nnoremap <leader>Dv :action ActivateDebugToolWindow<CR>
+
+" ---------- Run code (<leader>r*) -------------------------------------------
+nnoremap <leader>rc :action RunClass<CR>
+nnoremap <leader>rp :action Run<CR>
+
+" ---------- Undo tree / history ---------------------------------------------
+nnoremap <leader>u :action LocalHistory.ShowHistory<CR>
+
+" ---------- Buffers (<leader>bf) --------------------------------------------
+nnoremap <leader>bf :action Switcher<CR>
+
+" ---------- Database (<leader>db) -> Database tool window -------------------
+nnoremap <leader>db :action ActivateDatabaseToolWindow<CR>
+
+" ---------- Handoff to IDE for shortcuts vim shouldn't intercept ------------
+sethandler <C-c> a:ide
+sethandler <C-v> a:ide
+sethandler <C-x> n-v:vim i:ide
+sethandler <C-a> n-v:vim i:ide
+sethandler <C-n> a:ide
+sethandler <C-p> a:ide
+sethandler <C-g> a:ide
+sethandler <C-r> n-v:vim i:ide
+sethandler <C-z> a:ide
+sethandler <C-y> n-v:vim i:ide
+
+" ============================================================================
+" End of .ideavimrc
+" ============================================================================

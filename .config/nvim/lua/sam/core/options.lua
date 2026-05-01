@@ -21,6 +21,18 @@ opt.smartcase = true -- if you include mixed case in your search, assumes you wa
 -- cursor line
 opt.cursorline = true -- highlight the current cursor line
 
+-- cursor styling (matches ghostty: gruvbox theme)
+opt.guicursor = {
+	"n-v-c:block-Cursor",
+	"i-ci-ve:ver25-Cursor",
+	"r-cr:hor20-Cursor",
+	"o:hor50-Cursor",
+	"a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor",
+	"sm:block-Cursor-blinkwait175-blinkoff150-blinkon175",
+}
+vim.api.nvim_set_hl(0, "Cursor", { fg = "#282828", bg = "#d4be98" })
+vim.api.nvim_set_hl(0, "lCursor", { fg = "#282828", bg = "#d4be98" })
+
 -- appearance
 
 -- turn on termguicolors for nightfly colorscheme to work

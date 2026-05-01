@@ -7,8 +7,9 @@ theme = Gruvbox Material Dark
 # theme = Catppuccin Mocha
 shell-integration-features = no-cursor,sudo,no-title
 cursor-style = block
-# cursor-invert-fg-bg
-cursor-color = "#ffffff"
+cursor-opacity = 0.85
+cursor-color = "#d4be98"
+cursor-text = "#282828"
 adjust-cell-height = 35%
 background-opacity = 0.8
 background-blur = 65
