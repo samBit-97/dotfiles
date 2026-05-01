@@ -15,6 +15,14 @@ return {
 						vim.fn.expand("~/.local/share/db_ui/connections.json")
 					),
 				},
+				window_layout = {
+					explorer = {
+						width = 30,
+					},
+					result = {
+						height = 10,
+					},
+				},
 			})
 		end,
 	},
