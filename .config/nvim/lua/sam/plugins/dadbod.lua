@@ -1,26 +1,20 @@
 return {
 	{
-		"Xemptuous/sqlua.nvim",
+		"kndndrj/nvim-dbee",
 		dependencies = {
-			"nvim-telescope/telescope.nvim",
 			"MunifTanjim/nui.nvim",
 		},
 		lazy = false,
 		keys = {
-			{ "<leader>db", "<cmd>SQLua<CR>", desc = "Open SQL IDE" },
+			{ "<leader>db", "<cmd>Dbee<CR>", desc = "Toggle Database UI" },
 		},
 		config = function()
-			require("sqlua").setup({
-				-- Connection settings
-				connections = vim.fn.expand("~/.local/share/db_ui/connections.json"),
-				-- UI settings
-				window = {
-					width = 0.8,
-					height = 0.8,
+			require("dbee").setup({
+				sources = {
+					require("dbee.sources").JsonSource:new(
+						vim.fn.expand("~/.local/share/db_ui/connections.json")
+					),
 				},
-				-- Query settings
-				auto_execute_on_save = true,
-				result_window_position = "right",
 			})
 		end,
 	},
