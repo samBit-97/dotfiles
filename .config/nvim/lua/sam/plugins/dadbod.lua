@@ -11,7 +11,7 @@ return {
 		config = function()
 			require("dbee").setup({
 				sources = {
-					require("dbee.sources").JsonSource:new(
+					require("dbee.sources").FileSource:new(
 						vim.fn.expand("~/.local/share/db_ui/connections.json")
 					),
 				},
