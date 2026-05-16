@@ -5,7 +5,7 @@ return {
 	},
 	{
 		"kristijanhusak/vim-dadbod-completion",
-		ft = { "sql", "mysql", "plsql" },
+		lazy = false,
 		dependencies = { "tpope/vim-dadbod" },
 	},
 	{
